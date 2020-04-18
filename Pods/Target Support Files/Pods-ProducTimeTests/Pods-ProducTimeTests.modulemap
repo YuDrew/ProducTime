@@ -1,0 +1,6 @@
+framework module Pods_ProducTimeTests {
+  umbrella header "Pods-ProducTimeTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
