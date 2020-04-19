@@ -16,6 +16,8 @@ struct Task: Identifiable {
     let key: String
     let task: String
     let isComplete: String
+    let tracking: Bool = false
+    let log: [NSDate] = []
     let id: String
     
     init(task: String, isComplete: String,key: String = ""){

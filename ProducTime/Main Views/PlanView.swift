@@ -9,8 +9,33 @@
 import SwiftUI
 
 struct PlanView: View {
+    
+    @State var tasks : [Task] = []
     var body: some View {
-        Text("This is PlanView")
+        let task = tasks[0]
+        return Group {
+            HStack{
+                Circle()
+                    .foregroundColor(color: )
+                VStack(alignment: .leading){
+                    Text("Name of Task")
+                        .font(.headline)
+                    Text("Est Hrs: 00.00")
+                        .font(.subheadline)
+                }
+                VStack(alignment: .trailing){
+                    Toggle(isOn: task.)
+                    Text("Due: 00/00/00")
+                }
+            }//List(tasks)
+            .padding()
+        }
     }//body
     
 }//PlanView
+
+struct PlanView_Previews: PreviewProvider {
+    static var previews: some View {
+        PlanView()
+    }
+}

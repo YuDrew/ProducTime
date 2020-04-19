@@ -25,6 +25,9 @@
 		72E2B843244A9C080093BACD /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B842244A9C080093BACD /* PlanView.swift */; };
 		72E2B845244A9C140093BACD /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B844244A9C140093BACD /* TrackView.swift */; };
 		72E2B847244A9C1B0093BACD /* ReflectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B846244A9C1B0093BACD /* ReflectView.swift */; };
+		72E2B849244B40BC0093BACD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B848244B40BC0093BACD /* LoginView.swift */; };
+		72E2B84B244B40E80093BACD /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B84A244B40E80093BACD /* Session.swift */; };
+		72E2B84F244B47610093BACD /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B84E244B47610093BACD /* SignUpView.swift */; };
 		F3B0ACB0C6916F74FE08D1F7 /* Pods_ProducTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37A8D6DC765914FE5D0CF07 /* Pods_ProducTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +73,9 @@
 		72E2B842244A9C080093BACD /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		72E2B844244A9C140093BACD /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 		72E2B846244A9C1B0093BACD /* ReflectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectView.swift; sourceTree = "<group>"; };
+		72E2B848244B40BC0093BACD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		72E2B84A244B40E80093BACD /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		72E2B84E244B47610093BACD /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		897CC7DD815943F21DDEA2B5 /* Pods-ProducTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProducTime.debug.xcconfig"; path = "Target Support Files/Pods-ProducTime/Pods-ProducTime.debug.xcconfig"; sourceTree = "<group>"; };
 		BF5EC7A29ED229A13F52A242 /* Pods-ProducTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProducTime.release.xcconfig"; path = "Target Support Files/Pods-ProducTime/Pods-ProducTime.release.xcconfig"; sourceTree = "<group>"; };
 		CA03104D59C98FB89C7131D9 /* Pods-ProducTimeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProducTimeTests.release.xcconfig"; path = "Target Support Files/Pods-ProducTimeTests/Pods-ProducTimeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 		72353038244A61B20043B12A /* ProducTime */ = {
 			isa = PBXGroup;
 			children = (
+				72E2B84C244B42890093BACD /* Session */,
 				72E2B841244A9BF30093BACD /* Main Views */,
 				72E2B83E244A66080093BACD /* Models */,
 				72353039244A61B20043B12A /* AppDelegate.swift */,
@@ -195,11 +202,21 @@
 			isa = PBXGroup;
 			children = (
 				7235303D244A61B20043B12A /* ContentView.swift */,
+				72E2B848244B40BC0093BACD /* LoginView.swift */,
+				72E2B84E244B47610093BACD /* SignUpView.swift */,
 				72E2B842244A9C080093BACD /* PlanView.swift */,
 				72E2B844244A9C140093BACD /* TrackView.swift */,
 				72E2B846244A9C1B0093BACD /* ReflectView.swift */,
 			);
 			path = "Main Views";
+			sourceTree = "<group>";
+		};
+		72E2B84C244B42890093BACD /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				72E2B84A244B40E80093BACD /* Session.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 		7971542090F86189C1820ED6 /* Frameworks */ = {
@@ -454,9 +471,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72E2B84B244B40E80093BACD /* Session.swift in Sources */,
 				72E2B83D244A66000093BACD /* User.swift in Sources */,
 				7235303A244A61B20043B12A /* AppDelegate.swift in Sources */,
 				72E2B845244A9C140093BACD /* TrackView.swift in Sources */,
+				72E2B849244B40BC0093BACD /* LoginView.swift in Sources */,
+				72E2B84F244B47610093BACD /* SignUpView.swift in Sources */,
 				72E2B840244A661B0093BACD /* Task.swift in Sources */,
 				72E2B847244A9C1B0093BACD /* ReflectView.swift in Sources */,
 				7235303C244A61B20043B12A /* SceneDelegate.swift in Sources */,
