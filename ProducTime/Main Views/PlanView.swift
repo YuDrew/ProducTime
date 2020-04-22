@@ -11,31 +11,61 @@ import SwiftUI
 struct PlanView: View {
     
     @State var tasks : [Task] = []
+    @State var isAddingNew : Bool = false
+    
     var body: some View {
-        let task = tasks[0]
-        return Group {
-            HStack{
-                Circle()
-                    .foregroundColor(color: )
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        return NavigationView{
+            List(tasks){ task in
                 VStack(alignment: .leading){
-                    Text("Name of Task")
-                        .font(.headline)
-                    Text("Est Hrs: 00.00")
-                        .font(.subheadline)
+                    HStack{
+                        Text(task.task)
+                            .font(.headline)
+                        Spacer()
+                        Circle()
+                            .frame(width: 13, height: 13, alignment: .trailing)
+                        Text("00:00")
+                        if(task.tracking){
+                            Image(systemName: "pause.circle")
+                        }else{
+                            Image(systemName: "play.circle")
+                        }
+                    }
+                    HStack{
+                        Text("Est Hrs: 00.00")
+                            .font(.subheadline)
+                        Spacer()
+                        Text("Due: \(dateFormatter.string(from: task.due))")
+                            .font(.subheadline)
+                    }
+                }//VStack
+            }//List
+            .navigationBarTitle(Text("Plan it Out"))
+            .navigationBarItems(trailing:
+                Button(action: {self.isAddingNew = true}){
+                    Image(systemName: "plus")
                 }
-                VStack(alignment: .trailing){
-                    Toggle(isOn: task.)
-                    Text("Due: 00/00/00")
-                }
-            }//List(tasks)
-            .padding()
+            )
         }
     }//body
     
+    var modalNewTask: some View{
+        NavigationView{
+            Text("Todo: Implement New Task Adding")
+            .navigationBarTitle(Text("Add New Task"))
+            .navigationBarItems(trailing:
+                Button(action: {self.isAddingNew = false}){
+                    Text("Done")
+                }
+            )
+        }
+    }
 }//PlanView
 
 struct PlanView_Previews: PreviewProvider {
     static var previews: some View {
-        PlanView()
+        PlanView(tasks: testData)
     }
 }
+

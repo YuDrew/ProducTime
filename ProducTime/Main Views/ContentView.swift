@@ -41,7 +41,6 @@ struct ContentView: View {
                 }//conditionals on session existence
             }//Group
             .onAppear(perform: getUser)
-            .navigationBarTitle(Text("ProducTime"))
         }//NavigationView
     }//body
     

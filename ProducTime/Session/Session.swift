@@ -54,10 +54,10 @@ class Session: ObservableObject{
         }//observe
     }//getTasks
     
-    func uploadTask(task: String){
+    func uploadTask(task: String, due: Date, importance: Importance){
         let number = Int(Date.timeIntervalSinceReferenceDate * 1000)
         let postRef = ref.child(String(number))
-        let post = Task(task: task, isComplete: "false")
+        let post = Task(task: task, due: due, importance: importance)
         postRef.setValue(post.toAnyObject())
     }//uploadTask
     
