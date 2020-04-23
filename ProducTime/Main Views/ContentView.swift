@@ -36,12 +36,12 @@ struct ContentView: View {
                                     Text("Reflect")
                             }//ReflectView()
                         }//TabView()
+                            //.navigationBarHidden(true)
                             .navigationBarItems(
                                 leading: Text("Welcome, \(self.session.user?.email ?? "Email not found")"),
                                 trailing: Button(action: self.session.logOut){
                                     NavigationLink(destination: LoginView().environmentObject(self.session)){Text("Logout")}
-                                }
-                        )
+                                })
                     }
                 } else {
                     Group{
@@ -54,6 +54,7 @@ struct ContentView: View {
                     getUserAndTasks
                     )
         }//NavigationView
+        .navigationBarHidden(true)
     }//body
     
     //MARK: Functions
@@ -68,7 +69,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let session : Session = Session();
-        session.logIn(email: "Testing@test.com", password: "testing"){ (result, error) in
+        session.logIn(email: "potato@potatoes.com", password: "Potatoes"){ (result, error) in
             if error != nil{
                 session.tasks = testData
             }else{

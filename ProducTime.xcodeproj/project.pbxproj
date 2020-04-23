@@ -23,6 +23,7 @@
 		72DCF4EA24513D0D003C99CA /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCF4E924513D0D003C99CA /* NewTaskView.swift */; };
 		72DCF4EE2451EB2E003C99CA /* PlanRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCF4ED2451EB2E003C99CA /* PlanRowView.swift */; };
 		72DCF4F024520245003C99CA /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 72DCF4EF24520245003C99CA /* Notes.rtf */; };
+		72DCF4F224523EFD003C99CA /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCF4F124523EFD003C99CA /* TaskDetailView.swift */; };
 		72E2B83D244A66000093BACD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B83C244A66000093BACD /* User.swift */; };
 		72E2B840244A661B0093BACD /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B83F244A661B0093BACD /* Task.swift */; };
 		72E2B843244A9C080093BACD /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E2B842244A9C080093BACD /* PlanView.swift */; };
@@ -74,6 +75,7 @@
 		72DCF4E924513D0D003C99CA /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
 		72DCF4ED2451EB2E003C99CA /* PlanRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRowView.swift; sourceTree = "<group>"; };
 		72DCF4EF24520245003C99CA /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
+		72DCF4F124523EFD003C99CA /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		72E2B83C244A66000093BACD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		72E2B83F244A661B0093BACD /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		72E2B842244A9C080093BACD /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				72E2B84E244B47610093BACD /* SignUpView.swift */,
 				72E2B842244A9C080093BACD /* PlanView.swift */,
 				72DCF4ED2451EB2E003C99CA /* PlanRowView.swift */,
+				72DCF4F124523EFD003C99CA /* TaskDetailView.swift */,
 				72DCF4E924513D0D003C99CA /* NewTaskView.swift */,
 				72E2B844244A9C140093BACD /* TrackView.swift */,
 				72E2B846244A9C1B0093BACD /* ReflectView.swift */,
@@ -481,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72DCF4F224523EFD003C99CA /* TaskDetailView.swift in Sources */,
 				72E2B84B244B40E80093BACD /* Session.swift in Sources */,
 				72E2B83D244A66000093BACD /* User.swift in Sources */,
 				7235303A244A61B20043B12A /* AppDelegate.swift in Sources */,

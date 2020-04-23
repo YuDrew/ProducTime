@@ -24,7 +24,7 @@ class Session: ObservableObject{
     func listen(){
         _ = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if let user = user{
-                self.user = User(uid: user.uid, displayName: user.displayName, email: user.email)
+                self.user = User(uid: user.uid, email: user.email)
                 self.isLoggedIn = true
             }else{
                 self.user = nil
@@ -71,7 +71,7 @@ class Session: ObservableObject{
     }//getTasks
     
     func uploadTask(task: String, due: Date, importance: Importance){
-        let number = Int(Date.timeIntervalSinceReferenceDate * 1000)
+        let number = tasks.count + 1
         let postRef = ref.child(String(number))
         let post = Task(task: task, due: due, importance: importance)
         postRef.setValue(post.toAnyObject())

@@ -31,18 +31,18 @@ class Task: Identifiable {
     let key: String
     let id: String
     
-    let task: String
-    let due: Date
+    var name: String
+    var due: Date
     var log: [Date]
-    let importance: Importance
-    let status: Status
+    var importance: Importance
+    var status: Status
     
     init(task: String, due: Date, importance: Importance, key: String = ""){
         self.ref = nil
         self.key = key
         self.id = key
         
-        self.task = task
+        self.name = task
         self.due = due
         self.log = []
         self.importance = importance
@@ -59,7 +59,7 @@ class Task: Identifiable {
         dateFormatter.timeStyle = .none
         let dueDate = dateFormatter.date(from: due)!
         
-        self.task = task
+        self.name = task
         self.due = dueDate
         self.log = []
         self.importance = importance
@@ -96,7 +96,7 @@ class Task: Identifiable {
         self.key = snapshot.key
         self.id = snapshot.key
         
-        self.task = task
+        self.name = task
         self.due = dueDate
         self.log = logDates
         self.importance = Importance(rawValue: importance)!
@@ -115,7 +115,7 @@ class Task: Identifiable {
             logDates.append(logTime)
         }
         return [
-            "task": task,
+            "task": name,
             "due": dueDate,
             "log": logDates,
             "importance": importance.rawValue,
@@ -129,6 +129,42 @@ class Task: Identifiable {
     
     func startTracking(){
         log.append(Date())
+    }
+    
+    func stopTracking(){
+        log.append(Date())
+    }
+    
+    func getTimeElapsed() -> String{ //in seconds
+        var elapsedTime : Int = 0
+        var index : Int = 0
+        var startTime : Date = Date()
+        var endTime : Date
+        
+        for time in self.log {
+            if index % 2 == 0{
+                startTime = time
+            }else{
+                endTime = time
+                elapsedTime += Int(endTime.timeIntervalSince(startTime))
+            }
+            index += 1
+        }
+        
+        if isTracking(){
+            elapsedTime += Int(Date().timeIntervalSince(startTime))
+        }
+        
+
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+
+        let formattedString = formatter.string(from: TimeInterval(elapsedTime))!
+        //let hours : Int = elapsedTime / 3600
+        //let mins: Int = (elapsedTime % 3600 ) / 60
+        //let secs: Int = (elapsedTime % 3600) % 60
+        return formattedString
     }
 }//Task
 

@@ -1,47 +1,45 @@
 //
-//  NewTask.swift
+//  TaskDetailView.swift
 //  ProducTime
 //
-//  Created by Andrew Yu on 4/22/20.
+//  Created by Andrew Yu on 4/23/20.
 //  Copyright © 2020 Andrew Yu. All rights reserved.
 //
 
 import SwiftUI
 
-struct NewTaskView: View {
+/*struct TaskDetailView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
-    @State var taskName : String = "Task Name (make it actionable!)"
-    @State var dueDate : Date = Date()
-    @State var importance: Importance = .medium
-    @Binding var isAddingNew : Bool
+    @Binding var task : Task
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         return formatter
-    }//dateFormatter
+    }
     
     var body: some View{
         NavigationView{
             VStack{
                 Form{
                     Section{
-                        TextField("Task Name", text: $taskName)
-                        DatePicker(selection: $dueDate, in: Date()..., displayedComponents: .date){
+                        TextField("Task Name", text: task.task)
+                        DatePicker(selection: $task.due, in: Date()..., displayedComponents: .date){
                             Text("Due Date")
-                        }//DatePicker
-                        Picker(selection: $importance, label: Text("Importance")){
+                        }
+                        Picker(selection: $task.importance, label: Text("Importance")){
                             ForEach(Importance.allCases, id: \.self){
                                 Text($0.rawValue)
-                            }//Enumerate Importance Cases
-                        }//Importance Picker
-                    }//Form Section
-                }//Form
-                Text("\(taskName) by \(dueDate, formatter: dateFormatter)")
+                            }
+                        }
+                    }
+                }
+                Text("\(task.task) by \(task.due, formatter: dateFormatter)")
                 Spacer()
-            }//VStack
+                
+            }
                 
             .navigationBarTitle(Text("Add New Task"))
             .navigationBarItems(trailing:
@@ -52,17 +50,17 @@ struct NewTaskView: View {
                     print("Pressed add")
                 }){
                     Text("Add")
-                }//Add Button
-            )//NavigationBarItems
-        }//NavigationView
-    }//body
+                }
+            )
+        }
+    }
 }//PlanView
 
-struct NewTaskView_Previews: PreviewProvider {
+struct TaskDetailView_Previews: PreviewProvider {
     
     static var previews: some View {
         NewTaskView(isAddingNew: .constant(true)).environmentObject(Session())
     }
 
 }
-
+*/

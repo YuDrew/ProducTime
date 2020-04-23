@@ -23,36 +23,13 @@ struct PlanView: View {
     var body: some View {
         return NavigationView{
             List(session.tasks){ task in
-                return HStack{
-                    return VStack(alignment: .leading){
-                        HStack{
-                            Text(task.task)
-                                .font(.headline)
-                            Spacer()
-                            Circle()
-                                .frame(width: 13, height: 13, alignment: .trailing)
-                            Text("Secs: \(self.getTimeElapsed())")
-                            Button(action: self.startTracking){
-                                if(task.isTracking()){
-                                    Image(systemName: "pause.circle")
-                                }else{
-                                    Image(systemName: "play.circle")
-                                }
-                            }
-                        }
-                        HStack{
-                            Text("Est Hrs: 00.00")
-                                .font(.subheadline)
-                            Spacer()
-                            Text("Due: \(self.dateFormatter.string(from: task.due))")
-                                .font(.subheadline)
-                        }
-                    }//VStack
-                }
+                PlanRowView(task: task)
             }//List
-                .navigationBarTitle(Text("Planning out \(session.tasks.count) tasks"), displayMode: .inline)
+            .navigationBarTitle(Text("Planning out \(session.tasks.count) tasks"), displayMode: .inline)
             .navigationBarItems(trailing:
-                Button(action: {self.isAddingNew.toggle()}){
+                Button(action: {
+                    self.isAddingNew.toggle()
+                }){
                     Image(systemName: "plus")
                 }.sheet(isPresented: $isAddingNew){
                     NewTaskView(isAddingNew: self.$isAddingNew).environmentObject(self.session)
@@ -61,26 +38,6 @@ struct PlanView: View {
         }
     }//body
     
-    func startTracking(){
-        self.currTask.startTracking()
-    }
-    
-    func getTimeElapsed() -> Int{ //in seconds
-        var elapsedTime : Int = 0
-        var index : Int = 0
-        var startTime : Date = Date()
-        var endTime : Date
-        for time in self.currTask.log {
-            if index % 2 == 0{
-                startTime = time
-            }else{
-                endTime = time
-                elapsedTime = elapsedTime + Int(endTime.timeIntervalSince(startTime))
-            }
-            index = index + 1
-        }
-        return elapsedTime
-    }
 }//PlanView
 
 struct PlanView_Previews: PreviewProvider {

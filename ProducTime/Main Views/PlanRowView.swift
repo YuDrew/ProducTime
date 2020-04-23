@@ -9,65 +9,63 @@
 import SwiftUI
 
 struct PlanRowView: View {
-    
+    @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var task : Task
+    @State var elapsed: String = "0:00:00"
+    @State var trackingImage: String = "play.circle"
     //@ObservedObject var task: Task
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
+        formatter.timeStyle = .none
         return formatter
     }
     
     var body: some View {
-        return NavigationView{
-            VStack(alignment: .leading){
-                HStack{
-                    Text(task.task)
-                        .font(.headline)
-                    Spacer()
-                    Circle()
-                        .frame(width: 13, height: 13, alignment: .trailing)
-                    Text("Secs: \(getTimeElapsed())")
-                    Button(action: startTracking){
-                        if(task.isTracking()){
-                            Image(systemName: "pause.circle")
-                        }else{
-                            Image(systemName: "play.circle")
-                        }
+        return VStack {
+            HStack{
+                Text(self.task.name)
+                    .font(.headline)
+                Spacer()
+                Circle()
+                    .frame(width: 13, height: 13, alignment: .trailing)
+                Text(self.elapsed)
+                    .onReceive(timer){ input in
+                        self.elapsed = self.task.getTimeElapsed()
                     }
-                }
-                HStack{
-                    Text("Est Hrs: 00.00")
-                        .font(.subheadline)
-                    Spacer()
-                    Text("Due: \(self.dateFormatter.string(from: task.due))")
-                        .font(.subheadline)
-                }
-            }//VStack
-        }
+                Button(action:
+                {
+                    if(self.task.isTracking()){
+                            self.task.startTracking()
+                            self.trackingImage = "play.circle"
+                        }else{
+                            self.task.stopTracking()
+                            self.trackingImage = "pause.circle"
+                            
+                        }
+                }, label: {
+                    if(self.task.isTracking()){
+                        Image(systemName: "pause.circle")
+                            .foregroundColor(.blue)
+                    }else{
+                        Image(systemName: "play.circle")
+                        .foregroundColor(.blue)
+                    }
+                })
+            }//HStack
+            HStack{
+                Text("Est Hrs: 00.00")
+                    .font(.subheadline)
+                Spacer()
+                Text(self.task.importance.rawValue)
+                Spacer()
+                Text("Due: \(self.dateFormatter.string(from: self.task.due))")
+                    .font(.subheadline)
+            }//HStack
+        }//VStack
     }//body
     
-    func getTimeElapsed() -> Int{ //in seconds
-        var elapsedTime : Int = 0
-        var index : Int = 0
-        var startTime : Date = Date()
-        var endTime : Date
-        for time in task.log {
-            if index % 2 == 0{
-                startTime = time
-            }else{
-                endTime = time
-                elapsedTime = elapsedTime + Int(endTime.timeIntervalSince(startTime))
-            }
-            index = index + 1
-        }
-        return elapsedTime
-    }
-    
-    func startTracking(){
-        task.startTracking()
-    }
-}//PlanView
+}//PlanRowView
 
 struct PlanRowView_Previews: PreviewProvider {
     
