@@ -13,14 +13,20 @@ import FirebaseAuth
 
 struct SignUpView: View{
     
+    
+    //MARK: Properties
     @State private var email: String = ""
     @State private var password: String = ""
-    
+    @State private var showingAlert : Bool = false
+    @State private var errorMessage : String = ""
     @EnvironmentObject var session: Session
     
     var body: some View{
         Group{
             VStack{
+                Text("Sign Up For ProducTime")
+                    .font(.title)
+                    .bold()
                 HStack{
                     Text("Email")
                     TextField("Enter Email Address", text: $email)
@@ -36,10 +42,13 @@ struct SignUpView: View{
                 Button(action: signUp){
                     Text("Sign Up")
                 }//SignUpButton
+                .alert(isPresented: $showingAlert){
+                    Alert(title: Text("Invalid Attempt"), message: Text(self.errorMessage))
+                }
             }//VStack
-            
         }
         .padding()
+        .navigationBarHidden(true)
     }//body
     
     func signUp(){
@@ -49,14 +58,16 @@ struct SignUpView: View{
                     if let errorCode = AuthErrorCode(rawValue: error!._code){
                         switch errorCode{
                         case .invalidEmail:
-                            print("Invalid email.")
+                            self.errorMessage = "Invalid email."
                         case .emailAlreadyInUse:
-                            print("Email already in use.")
+                            self.errorMessage = "Email already in use."
                         case .weakPassword:
-                            print("Password is too weak. Must be at least 6 characters.")
+                            self.errorMessage = "Password is too weak. Must be at least 6 characters."
                         default:
-                            print("Create User Error: \(String(describing: error?.localizedDescription))")
+                            self.errorMessage = "Create User Error: \(String(describing: error?.localizedDescription))"
                         }
+                        print(self.errorMessage)
+                        self.showingAlert.toggle()
                     }
                 } else{
                     self.email = ""
@@ -70,6 +81,6 @@ struct SignUpView: View{
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View{
-        SignUpView()
+        SignUpView().environmentObject(Session())
     }
 }

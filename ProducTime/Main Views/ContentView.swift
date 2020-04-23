@@ -11,47 +11,77 @@ import SwiftUI
 struct ContentView: View {
     
     //MARK: Properties
-    @ObservedObject var session = Session()
+    @EnvironmentObject var session : Session
     
     var body: some View {
         return NavigationView{
             Group{
-                if session.session != nil {
-                    TabView{
-                        PlanView()
-                        .tabItem{
-                            Image(systemName: "square.and.pencil")
-                            Text("Plan")
-                        }//PlanView()
-                        TrackView()
-                        .tabItem{
-                            Image(systemName: "clock")
-                            Text("Track")
-                        }//TrackView()
-                        ReflectView()
+                if self.session.isLoggedIn {
+                    Group{
+                        return TabView{
+                            PlanView().environmentObject(self.session)
                             .tabItem{
-                                Image(systemName: "flowchart")
-                                Text("Reflect")
-                        }//ReflectView()
-                    }//TabView()`
+                                Image(systemName: "square.and.pencil")
+                                Text("Plan and Track")
+                            }//PlanView()
+                            /*TrackView().environmentObject(session)
+                            .tabItem{
+                                Image(systemName: "clock")
+                                Text("Track")
+                            }//TrackView()
+                            */
+                            ReflectView().environmentObject(self.session)
+                                .tabItem{
+                                    Image(systemName: "flowchart")
+                                    Text("Reflect")
+                            }//ReflectView()
+                        }//TabView()
+                            .navigationBarItems(
+                                leading: Text("Welcome, \(self.session.user?.email ?? "Email not found")"),
+                                trailing: Button(action: self.session.logOut){
+                                    NavigationLink(destination: LoginView().environmentObject(self.session)){Text("Logout")}
+                                }
+                        )
+                    }
                 } else {
-                    LoginView()
-                        .environmentObject(self.session)
-                        .navigationBarItems(trailing: Text(""))
+                    Group{
+                        LoginView()
+                            .environmentObject(self.session)
+                    }
                 }//conditionals on session existence
             }//Group
-            .onAppear(perform: getUser)
+                .onAppear(perform:
+                    getUserAndTasks
+                    )
         }//NavigationView
     }//body
     
     //MARK: Functions
-    func getUser(){
+    func getUserAndTasks(){
         session.listen()
+        session.getTasks()
+        print("called getUserAndTasks")
     }//getUser
+    
 }//ContentView()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let session : Session = Session();
+        session.logIn(email: "Testing@test.com", password: "testing"){ (result, error) in
+            if error != nil{
+                session.tasks = testData
+            }else{
+                print("not logged in")
+            }
+        }
+        return Group{
+            if (session.isLoggedIn) {
+                ContentView().environmentObject(session)
+                
+            }else{
+                Text("Not In")
+            }
+        }
     }//previews
 }//ContentView_Previews

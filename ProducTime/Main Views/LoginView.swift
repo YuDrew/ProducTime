@@ -15,37 +15,39 @@ struct LoginView: View{
     //MARK: Properties
     @State var email: String = ""
     @State var password: String = ""
-    
+    @State private var errorMessage : String = ""
     @EnvironmentObject var session: Session
     @State private var showingAlert = false
     
     var body: some View{
         VStack(spacing: 20){
             Spacer()
-            Text("Sign In")
+            Text("Sign In to ProducTime")
                 .font(Font.title)
-            
-            TextField("Email", text: $email)
-                .border(Color.gray, width: 1)
-                .padding()
-                
-            SecureField("Password", text: $password)
-                .border(Color.gray, width: 1)
-                .padding()
+            HStack{
+                Text("Email")
+                TextField("Enter email address", text: $email)
+            }
+            HStack{
+                Text("Password")
+                SecureField("Password", text: $password)
+            }
             
             Button(action: logIn){
                 Text("Sign In")
             }
             .padding()
-            .border(Color.gray, width: 1)
             .alert(isPresented: $showingAlert){
-                Alert(title: Text("Invalid Email or Password"), message: Text("Did you mean to sign up?"))
+                Alert(title: Text("Login Failed"), message: Text(errorMessage))
             }
             Spacer()
             NavigationLink(destination: SignUpView().environmentObject(self.session)){
                 Text("Sign Up")
             }
+            
         }//VStack
+        .padding()
+        .navigationBarHidden(true)
     }//body
     
     //MARK: Functions
@@ -54,13 +56,16 @@ struct LoginView: View{
             if error != nil{
                 if let errorCode = AuthErrorCode(rawValue: error!._code){
                     switch errorCode{
-                    case .wrongPassword:
-                        print("Wrong email or password")
-                    case .missingEmail:
-                        print("Password is too weak. Must be at least 6 characters.")
+                    case .invalidEmail, .wrongPassword:
+                        self.errorMessage = "Invalid email or password"
+                    case .userNotFound:
+                        self.errorMessage = "User not found."
                     default:
+                        self.errorMessage = String(describing: error?.localizedDescription)
                         print("Create User Error: \(String(describing: error?.localizedDescription))")
                     }
+                    print(self.errorMessage)
+                    self.showingAlert.toggle()
                 }
             } else{
                 self.email = ""
@@ -72,6 +77,6 @@ struct LoginView: View{
 
 struct LoginView_Previews: PreviewProvider{
     static var previews: some View{
-        LoginView()
+        LoginView().environmentObject(Session())
     }
 }//LoginView_Previews

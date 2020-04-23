@@ -9,7 +9,7 @@
 
 import Firebase
 
-enum Importance: String{
+enum Importance: String, CaseIterable, Hashable{
     case maximum
     case high
     case medium
@@ -17,7 +17,7 @@ enum Importance: String{
     case minimal
 }//Importance
 
-enum Status: String{
+enum Status: String, CaseIterable, Hashable{
     case doneLate = "Done Late"
     case done = "Done"
     case overdue = "Overdue"
@@ -25,7 +25,7 @@ enum Status: String{
     case notStarted = "Not Started"
 }//Status
 
-struct Task: Identifiable {
+class Task: Identifiable {
     
     let ref: DatabaseReference?
     let key: String
@@ -33,10 +33,9 @@ struct Task: Identifiable {
     
     let task: String
     let due: Date
-    let log: [Date]
+    var log: [Date]
     let importance: Importance
     let status: Status
-    let tracking: Bool
     
     init(task: String, due: Date, importance: Importance, key: String = ""){
         self.ref = nil
@@ -48,7 +47,6 @@ struct Task: Identifiable {
         self.log = []
         self.importance = importance
         self.status = .notStarted
-        self.tracking = false
     }//init by user
     
     init(task: String, due: String, importance: Importance, key: String = ""){
@@ -57,7 +55,8 @@ struct Task: Identifiable {
         self.id = key
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
         let dueDate = dateFormatter.date(from: due)!
         
         self.task = task
@@ -65,45 +64,72 @@ struct Task: Identifiable {
         self.log = []
         self.importance = importance
         self.status = .notStarted
-        self.tracking = false
     }//init by user
     
     init?(snapshot: DataSnapshot){
+        print("try to create task from snapshot")
         guard
             let value = snapshot.value as? [String: AnyObject],
             let task = value["task"] as? String,
-            let due = value["due"] as? Date,
-            let log = value["log"] as? [Date],
-            let importance = value["importance"] as? Importance,
-            let status = value["status"] as? Status,
-            let tracking = value["tracking"] as? Bool
+            let due = value["due"] as? String,
+            //let log = value["log"] as? [String],
+            let importance = value["importance"] as? String,
+            let status = value["status"] as? String
             else {
+                print("failed to create task")
                 return nil
             }
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        let dueDate = dateFormatter.date(from: due)!
+        dateFormatter.timeStyle = .long
+        var logDates : [Date] = []
+        /*for date in log{
+            if let newDate = dateFormatter.date(from: date){
+                logDates.append(newDate)
+            }else{
+                print("your date formatting in Firebase is whack")
+            }
+        }*/
         self.ref = snapshot.ref
         self.key = snapshot.key
         self.id = snapshot.key
         
         self.task = task
-        self.due = due
-        self.log = log
-        self.importance = importance
-        self.status = status
-        self.tracking = tracking
+        self.due = dueDate
+        self.log = logDates
+        self.importance = Importance(rawValue: importance)!
+        self.status = Status(rawValue: status)!
     }//init from a DataSnapshot
     
     func toAnyObject() -> Any {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        let dueDate = dateFormatter.string(from: due)
+        dateFormatter.timeStyle = .long
+        var logDates : [String] = []
+        for time in log {
+            let logTime = dateFormatter.string(from: time)
+            logDates.append(logTime)
+        }
         return [
             "task": task,
-            "due":  due,
-            "log": log,
-            "importance": importance,
-            "status": status,
-            "tracking": tracking
+            "due": dueDate,
+            "log": logDates,
+            "importance": importance.rawValue,
+            "status": status.rawValue,
         ]
     }//toAnyObject
     
+    func isTracking() -> Bool{
+        return (log.count % 2 != 0)
+    }
+    
+    func startTracking(){
+        log.append(Date())
+    }
 }//Task
 
 

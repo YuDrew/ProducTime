@@ -15,16 +15,20 @@ import FirebaseDatabase
 class Session: ObservableObject{
     
     //MARK: Properties
-    @Published var session: User?
-    @Published var isLoggedIn: Bool?
-    @Published var items: [Task] = []
+    @Published var user: User?
+    @Published var isLoggedIn: Bool = false
+    @Published var tasks: [Task] = []
     
     var ref: DatabaseReference = Database.database().reference(withPath: "\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
 
     func listen(){
         _ = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if let user = user{
-                self.session = User(uid: user.uid, displayName: user.displayName, email: user.email)
+                self.user = User(uid: user.uid, displayName: user.displayName, email: user.email)
+                self.isLoggedIn = true
+            }else{
+                self.user = nil
+                self.isLoggedIn = false
             }
             
         }//StateDidChangeListener
@@ -32,23 +36,35 @@ class Session: ObservableObject{
 
     func logIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().signIn(withEmail: email, password: password, completion: handler)
+        self.isLoggedIn = true
     }//logIn
 
     func logOut(){
         try! Auth.auth().signOut()
+        self.isLoggedIn = false
+        print("logged out, destroyed user")
+        self.user = nil
     }//logOut
 
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().createUser(withEmail: email, password: password, completion: handler)
+        self.isLoggedIn = true
     }//signUp
 
     func getTasks(){
         ref.observe(DataEventType.value){ (snapshot) in
-            self.items = []
+            self.tasks = []
+            print("Let's try getting tasks from firebase")
+            dump(snapshot)
+            
             for child in snapshot.children{
+                dump(child)
                 if let snapshot = child as? DataSnapshot,
                     let task = Task(snapshot: snapshot){
-                    self.items.append(task)
+                    self.tasks.append(task)
+                    print("Added a task from firebase")
+                }else{
+                    print("whoops, I guess it's not a datasnapshot")
                 }
             }
         }//observe
@@ -59,10 +75,12 @@ class Session: ObservableObject{
         let postRef = ref.child(String(number))
         let post = Task(task: task, due: due, importance: importance)
         postRef.setValue(post.toAnyObject())
+        dump(post.toAnyObject())
+        print("uploaded a task to firebase")
     }//uploadTask
     
-    func updateTask(key: String, task: String, isComplete: String){
-        let update = ["task": task, "isComplete": isComplete]
+    func updateTask(key: String, task: String, status: Status){
+        let update = ["task": task, "status": status.rawValue]
         let childUpdate = ["\(key)": update]
         ref.updateChildValues(childUpdate)
     }//updateTask

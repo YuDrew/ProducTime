@@ -8,6 +8,7 @@
 
 //Original User class inspired by: https://medium.com/flawless-app-stories/how-to-build-a-firebase-app-with-swiftui-5919d2d8a396
 
+import SwiftUI
 class User {
     
     var uid: String
