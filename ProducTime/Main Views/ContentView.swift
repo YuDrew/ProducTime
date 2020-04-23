@@ -12,6 +12,7 @@ struct ContentView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
+    @State var isLoggedIn : Bool
     
     var body: some View {
         return NavigationView{
@@ -78,7 +79,7 @@ struct ContentView_Previews: PreviewProvider {
         }
         return Group{
             if (session.isLoggedIn) {
-                ContentView().environmentObject(session)
+                ContentView(isLoggedIn: session.isLoggedIn).environmentObject(session)
                 
             }else{
                 Text("Not In")

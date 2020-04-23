@@ -75,6 +75,7 @@ struct SignUpView: View{
                 }
             }
         }
+        
     }//signUp
     
 }//SignUp

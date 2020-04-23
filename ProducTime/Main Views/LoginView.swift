@@ -48,6 +48,7 @@ struct LoginView: View{
         }//VStack
         .padding()
         .navigationBarHidden(true)
+        
     }//body
     
     //MARK: Functions

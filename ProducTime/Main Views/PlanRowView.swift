@@ -71,6 +71,6 @@ struct PlanRowView_Previews: PreviewProvider {
     
     static var previews: some View {
         PlanRowView(task: Task(task: "Finish Final Project", due: "04/23/20", importance: .maximum))
-    }
+    }//previews
 }
 

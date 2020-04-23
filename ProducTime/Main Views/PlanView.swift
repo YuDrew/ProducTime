@@ -38,6 +38,7 @@ struct PlanView: View {
         }
     }//body
     
+    
 }//PlanView
 
 struct PlanView_Previews: PreviewProvider {
