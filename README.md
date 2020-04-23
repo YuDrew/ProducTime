@@ -7,7 +7,7 @@ Goals:
 * Build something in SwiftUI
 * Create a working login / logout system to handle different users [Buggy]
 * Add multiple tasks to the list [...can't handle clearing lists when switching between users]
-* Track how much time you spend on a task [INCOMPLETE]
+* Track how much time you spend on a task [KIND OF WORKS]
 * Track how many tasks you completed [INCOMPLETE]
 * Visualize how much time you spend on your tasks [INCOMPLETE]
 
