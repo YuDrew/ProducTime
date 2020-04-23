@@ -15,4 +15,6 @@ Goals:
 Pennkey: AndrewYu
 
 Instructions for Running Project:
-- None; fiddle around with it and find many, many bugs! Just be sure to log in. 
+- Gotta log in
+- You can start timing a task by hitting the "play" button on a given task
+- To see how long you've been on the task, hit that button again, click away (e.g. move to the reflect page and then move back), and then come back (I couldn't figure out how to get the images to reload with state).
