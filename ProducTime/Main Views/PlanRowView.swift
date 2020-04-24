@@ -24,23 +24,26 @@ struct PlanRowView: View {
     
     var body: some View {
         NavigationLink(destination: TaskDetailView(task: self.task)){
-            VStack {
-                HStack{
-                    Text(self.task.name)
-                        .font(.headline)
-                    Circle()
-                        .frame(width: 13, height: 13, alignment: .trailing)
-                        .modifier(importanceModifier(importance: self.task.importance))
-                    Spacer()
-                }//HStack
-                HStack{
-                    Text(self.task.status.rawValue)
-                        .modifier(statusModifier(status: self.task.status))
-                    Spacer()
-                    Text("\(self.dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: self.task.due)))")
-                        .font(.subheadline)
-                }//HStack
-            }//VStack
+            HStack{
+                VStack {
+                    HStack{
+                        Text(self.task.name)
+                            .font(.headline)
+                        Circle()
+                            .frame(width: 13, height: 13, alignment: .trailing)
+                            .modifier(importanceModifier(importance: self.task.importance))
+                        Spacer()
+                    }//HStack
+                    HStack{
+                        Text(self.task.status.rawValue)
+                            .modifier(statusModifier(status: self.task.status))
+                        Spacer()
+                    }//HStack
+                }//VStack
+                Text("\(self.dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: self.task.due)))")
+                .font(.subheadline)
+            }//HStack
+            
         }//NavLink
     }//body
     

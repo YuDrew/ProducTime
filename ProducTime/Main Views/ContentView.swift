@@ -12,6 +12,7 @@ struct ContentView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
+    @State var isViewingUser : Bool = false
     
     var body: some View {
         return NavigationView{
@@ -37,8 +38,14 @@ struct ContentView: View {
                         }//TabView()
                         .navigationBarTitle(Text(""), displayMode: .inline)
                         .navigationBarItems(
-                            leading:                               Text("\(self.session.user?.displayName ?? self.session.user?.email ?? "Email not found")")
-                                .modifier(backgroundRectModifier(color: Color.yellow)),
+                            leading: Button(action: {
+                                self.isViewingUser.toggle()
+                            }){
+                                Text("\(self.session.user?.displayName ?? self.session.user?.email ?? "Email not found")")
+                                .modifier(backgroundRectModifier(color: Color.yellow))
+                            }.sheet(isPresented: $isViewingUser){
+                                UserEditorView(isViewingUser: self.$isViewingUser).environmentObject(self.session)
+                            },
                             trailing:
                                 Button(action: {self.session.logOut()}){
                                 Text("Logout")

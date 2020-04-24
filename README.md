@@ -16,8 +16,12 @@ You can add new tasks, set priority levels, and log when you start and stop work
 - Use the ProducTime.xcworkspace file
 
 ## Goals for Features:
-* Able to handle different users and login / logout
-* Able to add multiple task to the list
+* Handle different users and login / logout
 * Track how much time you spend on a task
-* Track how many tasks you completed [Eh]
-* Visualize how much time you spend on your tasks [Not Started]
+* Track how many tasks you have to do
+* Track how many tasks you completed [not completed]
+* Visualize how much time you spend on your tasks [Not started]
+
+### Other Small Features
+* Project colors change depending on importance level and status [status editing isn't supported yet, though]
+* Users can edit their display name

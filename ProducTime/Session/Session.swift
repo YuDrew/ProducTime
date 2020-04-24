@@ -19,8 +19,7 @@ class Session: ObservableObject{
     @Published var isLoggedIn: Bool = false
     @Published var tasks: [Task] = []
     
-    var ref: DatabaseReference = Database.database().reference(withPath: "\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
-
+    var ref: DatabaseReference = Database.database().reference(withPath: "users/\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
     //MARK: Auth Functions
     
     /*Listener that is called anytime the sign-in state changes
@@ -129,4 +128,5 @@ class Session: ObservableObject{
             deleteTask(taskIndex: taskIndex)
         }
     }//delete a Task
+    
 }//Session
