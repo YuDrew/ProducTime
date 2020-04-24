@@ -21,54 +21,82 @@ class Session: ObservableObject{
     
     var ref: DatabaseReference = Database.database().reference(withPath: "\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
 
+    //MARK: Auth Functions
+    
+    /*Listener that is called anytime the sign-in state changes
+     - If logged in, updates state to reflect log-in status
+     - If logged out, clears state in order to prep for new log-in
+     */
     func listen(){
         _ = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if let user = user{
+                self.ref = Database.database().reference(withPath: "\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
                 self.user = User(uid: user.uid, email: user.email)
                 self.isLoggedIn = true
+                self.getTasks()
+                print("created user \(String(describing: user.email))")
             }else{
+                print("destroying user \(String(describing: user?.email ?? "Error"))")
                 self.user = nil
                 self.isLoggedIn = false
+                self.tasks.removeAll()
+                self.ref.removeAllObservers()
             }
-            
         }//StateDidChangeListener
     }//listen
-
-    func logIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
-        Auth.auth().signIn(withEmail: email, password: password, completion: handler)
-        self.isLoggedIn = true
-    }//logIn
-
-    func logOut(){
-        try! Auth.auth().signOut()
-        self.isLoggedIn = false
-        self.user = nil
-        print("logged out, destroyed user")
-    }//logOut
-
+    
+    /* signUp Function.
+    - Signs up new user using Auth
+    - Listener should automatically be called, updating state
+    */
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().createUser(withEmail: email, password: password, completion: handler)
-        self.isLoggedIn = true
+        print("signUp")
     }//signUp
 
+    /* LogIn Function.
+     - Logs a user in via Auth.
+     - Listener should automatically be called, updating state
+     */
+    func logIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
+        Auth.auth().signIn(withEmail: email, password: password, completion: handler)
+        print("logIn")
+    }//logIn
+
+    /* LogOut Function.
+    - Logs current user out using Auth
+    - Listener should automatically be called, updating state
+    */
+    func logOut(){
+        try! Auth.auth().signOut()
+        print("logOut")
+    }//logOut
+
+    
+    //MARK: Functions for Updating State
+    
+    /* getTasks Observer
+     Watches current ref for tasks and updates whenever changes are made in Firebase
+     - Should be re-called
+     */
     func getTasks(){
         ref.observe(DataEventType.value){ (snapshot) in
             print("Let's try getting tasks from firebase")
-            dump(snapshot)
-            dump(self.tasks)
+            //dump(snapshot)
+            //dump(self.tasks)
             for child in snapshot.children{
                 dump(child)
                 if let snapshot = child as? DataSnapshot,
                     let task = Task(snapshot: snapshot){
                     if self.tasks.firstIndex(of: task) == nil{
                         self.tasks.append(task)
-                        print("Added a task from firebase")
+                        print("Added a \(task.name) from firebase")
                     }else{
-                        print("the mans already exists")
+                        print("the mans \(task.name) already exists")
                     }
                     
                 }else{
-                    print("Loaded snapshot incorrectly")
+                    print("Loaded snapshot incorrectly...")
                 }
             }
         }//observe

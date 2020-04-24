@@ -15,8 +15,6 @@ struct LogView : View {
     
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var editMode = EditMode.inactive
-    @State var trackingImage: String = "play.circle"
-    @State var elapsed: String
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -28,44 +26,26 @@ struct LogView : View {
     var body : some View {
         VStack{
             HStack{
-                Text("Timetracking Log")
+                Text("Timetracking Total: ")
                     .font(.headline)
-                Spacer()
-                Text(self.elapsed)
+                Text(self.task.elapsed)
                 .onReceive(timer){ input in
-                    self.elapsed = self.task.getTimeElapsed()
+                    self.task.getTimeElapsed()
                 }
                 .onAppear(perform: {
-                    self.elapsed = self.task.getTimeElapsed()
-                    if self.task.isTracking(){
-                        self.trackingImage = "pause.circle"
-                    }else{
-                        self.trackingImage = "play.circle"
-                    }
+                    self.task.getTimeElapsed()
                 })
-                Button(action:
-                {
-                    if(self.task.isTracking()){
-                        self.trackingImage = "play.circle"
-                    }else{
-                        self.trackingImage = "pause.circle"
-                    }
-                    self.task.logCurrentDate()
-                    self.elapsed = self.task.getTimeElapsed()
-                }, label: {
-                    Image(systemName: self.trackingImage)
-                        .foregroundColor(.blue)
-                })
+                Spacer()
             }.padding()
             HStack{
                 List(0..<task.log.count){ index in
                     Text("\(self.dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: self.task.log[index])))")
                 }//List
-            }
-        }
-
-    }
-}
+            }//HStack
+        }//VStack
+    }//body
+    
+}//LogView
 
 
 struct LogView_Previews: PreviewProvider {
@@ -88,7 +68,7 @@ struct LogView_Previews: PreviewProvider {
         @State var task: Task
         
         var body: some View{
-            LogView(task: task, elapsed: task.getTimeElapsed()).environmentObject(Session())
+            LogView(task: task).environmentObject(Session())
         }
     }
 

@@ -33,15 +33,17 @@ class Task: Identifiable, Equatable, ObservableObject {
     let key: String
     
     //Important model properties
-    var name: String
-    var due: Double
-    var log: [Double]
-    var importance: Importance
-    var status: Status
+    @Published var name: String
+    @Published var due: Double
+    @Published var log: [Double]
+    @Published var importance: Importance
+    @Published var status: Status
+    @Published var elapsed: String = "0"
     
     //helper properties
     private var logID: Int = 0
     
+    //MARK: Constructors
     init(name: String, due: Date, importance: Importance, key: String, ref: DatabaseReference){
         
         self.ref = ref
@@ -92,7 +94,45 @@ class Task: Identifiable, Equatable, ObservableObject {
         }
         self.importance = Importance(rawValue: importance)!
         self.status = Status(rawValue: status)!
+        loadLogs()
     }//init from a DataSnapshot
+    
+    //MARK: Functions Called Upon Construction
+    func loadLogs(){
+        let logRef = self.ref?.child("log")
+        logRef?.observe(DataEventType.value){ (snapshot) in
+            print("Let's try getting the log from firebase")
+            //dump(snapshot)
+            //dump(self.tasks)
+            for child in snapshot.children{
+                dump(child)
+                if let logDate = (child as AnyObject) as? Double{
+                    if self.log.firstIndex(of: logDate) == nil{
+                        self.log.insert(logDate, at: self.insertionIndexOf(logDate, isOrderedBefore: <))
+                    }
+                }else{
+                    print("Loaded log snapshot incorrectly...")
+                }
+            }
+        }//observe
+    }//loadLogs
+    
+    func insertionIndexOf(_ date: Double, isOrderedBefore: (Double, Double) -> Bool) -> Int {
+        var lo = 0
+        var hi = log.count - 1
+        while lo <= hi {
+            let mid = (lo + hi)/2
+            if isOrderedBefore(log[mid], date) {
+                lo = mid + 1
+            } else if isOrderedBefore(date, log[mid]) {
+                hi = mid - 1
+            } else {
+                return mid // found at position mid
+            }
+        }
+        return lo // not found, would be inserted at position lo
+    }//
+    
     
     func toDictionary() -> NSDictionary {
         return [
@@ -114,9 +154,10 @@ class Task: Identifiable, Equatable, ObservableObject {
         if let logRef = ref?.child("log").childByAutoId() {
             logRef.setValue(date)
         }
+        
     }//logCurrentDate
     
-    func getTimeElapsed() -> String{ //in seconds
+    func getTimeElapsed(){ //in seconds
         var elapsedTime : Double = 0
         var index : Int = 0
         var startTime : Double = 0
@@ -141,7 +182,7 @@ class Task: Identifiable, Equatable, ObservableObject {
         formatter.unitsStyle = .positional
 
         let formattedString = formatter.string(from: TimeInterval(elapsedTime))!
-        return formattedString
+        self.elapsed = formattedString
     }//getTimeElapsed
     
     //MARK: Protocol Functions

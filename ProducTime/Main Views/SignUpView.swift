@@ -74,8 +74,10 @@ struct SignUpView: View{
                     self.password = ""
                 }
             }
+        }else{
+            self.errorMessage = "Missing email or password"
+            self.showingAlert.toggle()
         }
-        
     }//signUp
     
 }//SignUp

@@ -14,7 +14,6 @@ struct TrackRowView: View {
     @EnvironmentObject var session : Session
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @ObservedObject var task : Task
-    @State var elapsed: String = "0:00:00"
     @State var trackingImage: String = "play.circle"
     
     var dateFormatter: DateFormatter {
@@ -34,12 +33,12 @@ struct TrackRowView: View {
                     .frame(width: 15, height: 15, alignment: .trailing)
                     .modifier(importanceModifier(importance: self.task.importance))
                 Spacer()
-                Text(self.elapsed)
+                Text(self.task.elapsed)
                     .onReceive(timer){ input in
                         if(self.task.isTracking()){
-                        self.elapsed = self.task.getTimeElapsed()
+                            self.task.getTimeElapsed()
                         }
-                }.onAppear(perform: {self.elapsed = self.task.getTimeElapsed()})
+                }.onAppear(perform: {self.task.getTimeElapsed()})
                 Button(action:
                 {
                     if(self.task.isTracking()){

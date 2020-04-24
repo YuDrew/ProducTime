@@ -27,7 +27,7 @@ struct TrackView: View {
             List(session.tasks){ task in
                 TrackRowView(task: task).environmentObject(self.session)
             }//List
-            .navigationBarTitle(Text("Tracking \(session.tasks.count) tasks"), displayMode: .inline)
+            .navigationBarTitle(Text("Tracking \(session.tasks.count) Tasks"), displayMode: .inline)
         }
     }//body
     

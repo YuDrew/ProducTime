@@ -27,7 +27,7 @@ struct PlanView: View {
                 PlanRowView(task: task).environmentObject(self.session)
             }
                 
-            .navigationBarTitle(Text("Planning out \(session.tasks.count) tasks"), displayMode: .inline)
+            .navigationBarTitle(Text("Planning \(session.tasks.count) Tasks"), displayMode: .inline)
             .navigationBarItems(
                 leading: EditButton(),
                 trailing: Button(action: {

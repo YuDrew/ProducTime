@@ -22,7 +22,7 @@ struct ContentView: View {
                             PlanView().environmentObject(self.session)
                             .tabItem{
                                 Image(systemName: "square.and.pencil")
-                                Text("Plan and Track")
+                                Text("Plan")
                             }//PlanView()
                             TrackView().environmentObject(session)
                             .tabItem{

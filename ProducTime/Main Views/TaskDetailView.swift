@@ -17,7 +17,8 @@ struct TaskDetailView: View {
     //@State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var editMode = EditMode.inactive
     //@State var trackingImage: String = "play.circle"
-    //@State var elapsed: String = "0:00:00"
+    //@State var elapsed: String = "0:00:
+    
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -39,7 +40,7 @@ struct TaskDetailView: View {
 
                 }//Form
                 
-                LogView(task: task, elapsed: task.getTimeElapsed()).environmentObject(session)
+                LogView(task: task).environmentObject(session)
                     
                 .navigationBarTitle(Text(task.name), displayMode: .inline)
                 .navigationBarItems(trailing: EditButton())
