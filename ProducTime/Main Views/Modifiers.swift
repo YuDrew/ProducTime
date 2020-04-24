@@ -42,7 +42,8 @@ struct statusModifier: ViewModifier {
             case .doneLate: color = Color.purple
         }
         return content
-            .foregroundColor(color)
+            .modifier(backgroundRectModifier(color: color))
+        
     }
     
     

@@ -42,24 +42,24 @@ class Task: Identifiable, Equatable, ObservableObject {
     //helper properties
     private var logID: Int = 0
     
-    init(task: String, due: Date, importance: Importance, key: String, ref: DatabaseReference){
+    init(name: String, due: Date, importance: Importance, key: String, ref: DatabaseReference){
         
         self.ref = ref
         self.key = key
         
-        self.name = task
+        self.name = name
         self.due = due.timeIntervalSinceReferenceDate
         self.log = []
         self.importance = importance
         self.status = .notStarted
     }//init by Session; used to link to Firebase
     
-    init(task: String, due: Date, importance: Importance, key: String = ""){
+    init(name: String, due: Date, importance: Importance, key: String = ""){
         
         self.ref = nil
         self.key = key
         
-        self.name = task
+        self.name = name
         self.due = due.timeIntervalSinceReferenceDate
         self.log = []
         self.importance = importance
@@ -98,9 +98,9 @@ class Task: Identifiable, Equatable, ObservableObject {
         return [
             "task": name,
             "due": due,
-            "log": log,
             "importance": importance.rawValue,
             "status": status.rawValue,
+            "log": log,
         ]
     }//toAnyObject
     
@@ -128,12 +128,11 @@ class Task: Identifiable, Equatable, ObservableObject {
             }else{
                 endTime = time
                 elapsedTime += Double(endTime - startTime)
-                startTime = -1
             }
             index += 1
         }
         
-        if isTracking(), startTime != -1 {
+        if isTracking() {
             elapsedTime += Double(Date().timeIntervalSinceReferenceDate - startTime)
         }
 

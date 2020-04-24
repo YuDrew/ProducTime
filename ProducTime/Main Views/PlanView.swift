@@ -13,7 +13,6 @@ struct PlanView: View {
     @EnvironmentObject var session : Session
     @State var isAddingNew : Bool = false
     @State var isShowingDetail : Bool = false
-    @State private var editMode = EditMode.inactive
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -26,9 +25,11 @@ struct PlanView: View {
         return NavigationView{
             List(session.tasks){ task in
                 PlanRowView(task: task).environmentObject(self.session)
-            }//List
+            }
+                
             .navigationBarTitle(Text("Planning out \(session.tasks.count) tasks"), displayMode: .inline)
             .navigationBarItems(
+                leading: EditButton(),
                 trailing: Button(action: {
                     self.isAddingNew.toggle()
                 }){
@@ -39,7 +40,6 @@ struct PlanView: View {
             )
         }
     }//body
-    
     
 }//PlanView
 

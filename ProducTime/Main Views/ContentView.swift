@@ -24,12 +24,11 @@ struct ContentView: View {
                                 Image(systemName: "square.and.pencil")
                                 Text("Plan and Track")
                             }//PlanView()
-                            /*TrackView().environmentObject(session)
+                            TrackView().environmentObject(session)
                             .tabItem{
                                 Image(systemName: "clock")
                                 Text("Track")
                             }//TrackView()
-                            */
                             ReflectView().environmentObject(self.session)
                                 .tabItem{
                                     Image(systemName: "flowchart")

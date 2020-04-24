@@ -12,9 +12,12 @@ struct TaskDetailView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
-    @Binding var task : Task
+    @ObservedObject var task : Task
+    
+    //@State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var editMode = EditMode.inactive
-
+    //@State var trackingImage: String = "play.circle"
+    //@State var elapsed: String = "0:00:00"
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -23,27 +26,52 @@ struct TaskDetailView: View {
     }
     
     var body: some View{
-        VStack{
-            Form{
-                Section{
-                    Text(task.name)
-                    Text("Due: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: task.due)))")
-                    Text(task.importance.rawValue)
-                        .modifier(importanceModifier(importance: task.importance))
-                    Text(task.status.rawValue)
-                }
-            }
-        }.navigationBarTitle(Text(task.name), displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())
-            .environment(\.editMode, $editMode)
+        NavigationView{
+            VStack{
+                Form{
+                    Section{
+                        Text(task.name)
+                        Text("Due: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: task.due)))")
+                        Text(task.importance.rawValue)
+                            .modifier(importanceModifier(importance: task.importance))
+                        Text(task.status.rawValue)
+                    }.navigationBarTitle(Text(task.name), displayMode: .large)
+
+                }//Form
+                
+                LogView(task: task, elapsed: task.getTimeElapsed()).environmentObject(session)
+                    
+                .navigationBarTitle(Text(task.name), displayMode: .inline)
+                .navigationBarItems(trailing: EditButton())
+                    .environment(\.editMode, $editMode)
+            }//VStack
+        }//NavView
     }//body
     
 }//PlanView
 
-/*struct TaskDetailView_Previews: PreviewProvider {
+struct TaskDetailView_Previews: PreviewProvider {
     
     static var previews: some View {
-        TaskDetailView(task: Task(task: "Test", due: Date(), importance: .maximum), isShowingDetail: .constant(true)).environmentObject(Session())
+        let debugSession : Session = Session()
+        debugSession.logIn(email: "Debug@project.com", password: "DebugIt!"){ (result, error) in
+            if error != nil{
+                print(error.debugDescription)
+            }else{
+                print("Started Debug Session")
+            }
+        }
+        let task : Task = Task(name: "Debug Task", due: Date(), importance: .medium)
+        return PreviewWrapper(task: task).environmentObject(debugSession)
+    }
+    
+    struct PreviewWrapper: View{
+        @EnvironmentObject var session: Session
+        @State var task: Task
+        
+        var body: some View{
+            TaskDetailView(task: task).environmentObject(Session())
+        }
     }
 
-}*/
+}

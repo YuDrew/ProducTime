@@ -53,18 +53,22 @@ class Session: ObservableObject{
 
     func getTasks(){
         ref.observe(DataEventType.value){ (snapshot) in
-            self.tasks = []
             print("Let's try getting tasks from firebase")
             dump(snapshot)
-            
+            dump(self.tasks)
             for child in snapshot.children{
                 dump(child)
                 if let snapshot = child as? DataSnapshot,
                     let task = Task(snapshot: snapshot){
-                    self.tasks.append(task)
-                    print("Added a task from firebase")
+                    if self.tasks.firstIndex(of: task) == nil{
+                        self.tasks.append(task)
+                        print("Added a task from firebase")
+                    }else{
+                        print("the mans already exists")
+                    }
+                    
                 }else{
-                    print("whoops, I guess it's not a datasnapshot")
+                    print("Loaded snapshot incorrectly")
                 }
             }
         }//observe
@@ -74,7 +78,7 @@ class Session: ObservableObject{
         let number = Int(Date.timeIntervalSinceReferenceDate * 1000)
         let key = String(number)
         
-        let task = Task(task: name, due: due, importance: importance, key: key, ref: ref.child(key))
+        let task = Task(name: name, due: due, importance: importance, key: key, ref: ref.child(key))
         
         task.ref?.setValue(task.toDictionary())
         dump(task.toDictionary())
@@ -84,16 +88,14 @@ class Session: ObservableObject{
     
     func updateTask(task: Task){
         task.ref?.updateChildValues(task.toDictionary() as! [AnyHashable : Any])
+        print("Called updateTask")
     }//updateTask
     
-    func logTask(key: String, loggedDate: String){
-        
-        //let taskRef = ref.child(key).child("log").push(loggedDate)
-    }
     func deleteTask(taskIndex: Int){
         ref.child(tasks[taskIndex].key).removeValue()
         tasks.remove(at: taskIndex)
     }//delete a Task
+    
     func deleteTask(task: Task){
         if let taskIndex = self.tasks.firstIndex(of: task){
             deleteTask(taskIndex: taskIndex)
