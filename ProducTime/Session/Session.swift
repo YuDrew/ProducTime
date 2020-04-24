@@ -42,8 +42,8 @@ class Session: ObservableObject{
     func logOut(){
         try! Auth.auth().signOut()
         self.isLoggedIn = false
-        print("logged out, destroyed user")
         self.user = nil
+        print("logged out, destroyed user")
     }//logOut
 
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
@@ -70,19 +70,33 @@ class Session: ObservableObject{
         }//observe
     }//getTasks
     
-    func uploadTask(task: String, due: Date, importance: Importance){
-        let number = tasks.count + 1
-        let postRef = ref.child(String(number))
-        let post = Task(task: task, due: due, importance: importance)
-        postRef.setValue(post.toAnyObject())
-        dump(post.toAnyObject())
-        print("uploaded a task to firebase")
+    func uploadTask(name: String, due: Date, importance: Importance){
+        let number = Int(Date.timeIntervalSinceReferenceDate * 1000)
+        let key = String(number)
+        
+        let task = Task(task: name, due: due, importance: importance, key: key, ref: ref.child(key))
+        
+        task.ref?.setValue(task.toDictionary())
+        dump(task.toDictionary())
+        
+        print("Added \(name) to Database")
     }//uploadTask
     
-    func updateTask(key: String, task: String, status: Status){
-        let update = ["task": task, "status": status.rawValue]
-        let childUpdate = ["\(key)": update]
-        ref.updateChildValues(childUpdate)
+    func updateTask(task: Task){
+        task.ref?.updateChildValues(task.toDictionary() as! [AnyHashable : Any])
     }//updateTask
     
+    func logTask(key: String, loggedDate: String){
+        
+        //let taskRef = ref.child(key).child("log").push(loggedDate)
+    }
+    func deleteTask(taskIndex: Int){
+        ref.child(tasks[taskIndex].key).removeValue()
+        tasks.remove(at: taskIndex)
+    }//delete a Task
+    func deleteTask(task: Task){
+        if let taskIndex = self.tasks.firstIndex(of: task){
+            deleteTask(taskIndex: taskIndex)
+        }
+    }//delete a Task
 }//Session

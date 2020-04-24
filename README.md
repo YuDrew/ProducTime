@@ -8,10 +8,11 @@ Goals:
 * Add multiple tasks to the list [...can't handle clearing lists when switching between users]
 * Track how much time you spend on a task [KIND OF WORKS]
 * Track how many tasks you completed [INCOMPLETE]
-* Visualize how much time you spend on your tasks [INCOMPLETE]
+* Visualize how much time you spend on your tasks [INCOMPLET E]
 
 Instructions for Running Project:
 - Log in
 - In the Plan & Track tab, you can add tasks and timetrack the tasks (you can timetrack multiple tasks, as well)
-- You can start timing a task by hitting the "play" button on a given task
-- To see how long you've been on the task, hit that button again, click away (e.g. move to the reflect page and then move back), and then come back (I couldn't figure out how to get the images to reload with state).
+- Add tasks by hitting the add button! Right now, you can set the name, due date, and the priority level
+- Want to timetrack? Hit the play button on a given task, and it'll start counting away by the second! You can pause, and it'll still keep track :D. Still figuring out a way to keep the tracking, though.
+- Reflect tab: it's in the works! Come back later...

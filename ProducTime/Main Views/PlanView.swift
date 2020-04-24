@@ -12,7 +12,9 @@ struct PlanView: View {
     
     @EnvironmentObject var session : Session
     @State var isAddingNew : Bool = false
-    @State var currTask : Task = Task(task: "filler", due: "01/01/2020", importance: .medium)
+    @State var isShowingDetail : Bool = false
+    @State private var editMode = EditMode.inactive
+    
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -23,11 +25,11 @@ struct PlanView: View {
     var body: some View {
         return NavigationView{
             List(session.tasks){ task in
-                PlanRowView(task: task)
+                PlanRowView(task: task).environmentObject(self.session)
             }//List
             .navigationBarTitle(Text("Planning out \(session.tasks.count) tasks"), displayMode: .inline)
-            .navigationBarItems(trailing:
-                Button(action: {
+            .navigationBarItems(
+                trailing: Button(action: {
                     self.isAddingNew.toggle()
                 }){
                     Image(systemName: "plus")
@@ -46,9 +48,9 @@ struct PlanView_Previews: PreviewProvider {
     
     static var previews: some View {
         let session : Session = Session();
-        session.logIn(email: "testing@test.com", password: "Testing"){ (result, error) in
+        session.logIn(email: "Debug@project.com", password: "DebugIt!"){ (result, error) in
             if error != nil{
-                session.tasks = testData
+                print(error.debugDescription)
             }else{
                 print("not logged in")
             }

@@ -20,6 +20,7 @@
 		7235306A244A62620043B12A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72353069244A62620043B12A /* GoogleService-Info.plist */; };
 		7235306B244A62620043B12A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72353069244A62620043B12A /* GoogleService-Info.plist */; };
 		7235306C244A62620043B12A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72353069244A62620043B12A /* GoogleService-Info.plist */; };
+		7256EFB12452A02E00CDD840 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256EFB02452A02E00CDD840 /* Modifiers.swift */; };
 		72DCF4EA24513D0D003C99CA /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCF4E924513D0D003C99CA /* NewTaskView.swift */; };
 		72DCF4EE2451EB2E003C99CA /* PlanRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCF4ED2451EB2E003C99CA /* PlanRowView.swift */; };
 		72DCF4F024520245003C99CA /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 72DCF4EF24520245003C99CA /* Notes.rtf */; };
@@ -72,6 +73,7 @@
 		7235305B244A61B60043B12A /* ProducTimeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProducTimeUITests.swift; sourceTree = "<group>"; };
 		7235305D244A61B60043B12A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72353069244A62620043B12A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7256EFB02452A02E00CDD840 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		72DCF4E924513D0D003C99CA /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
 		72DCF4ED2451EB2E003C99CA /* PlanRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRowView.swift; sourceTree = "<group>"; };
 		72DCF4EF24520245003C99CA /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		72353038244A61B20043B12A /* ProducTime */ = {
 			isa = PBXGroup;
 			children = (
+				7256EFB52452C9A800CDD840 /* Aesthetics */,
 				72DCF4EF24520245003C99CA /* Notes.rtf */,
 				72E2B84C244B42890093BACD /* Session */,
 				72E2B841244A9BF30093BACD /* Main Views */,
@@ -196,6 +199,14 @@
 				7235305D244A61B60043B12A /* Info.plist */,
 			);
 			path = ProducTimeUITests;
+			sourceTree = "<group>";
+		};
+		7256EFB52452C9A800CDD840 /* Aesthetics */ = {
+			isa = PBXGroup;
+			children = (
+				7256EFB02452A02E00CDD840 /* Modifiers.swift */,
+			);
+			path = Aesthetics;
 			sourceTree = "<group>";
 		};
 		72E2B83E244A66080093BACD /* Models */ = {
@@ -488,6 +499,7 @@
 				72E2B84B244B40E80093BACD /* Session.swift in Sources */,
 				72E2B83D244A66000093BACD /* User.swift in Sources */,
 				7235303A244A61B20043B12A /* AppDelegate.swift in Sources */,
+				7256EFB12452A02E00CDD840 /* Modifiers.swift in Sources */,
 				72E2B845244A9C140093BACD /* TrackView.swift in Sources */,
 				72E2B849244B40BC0093BACD /* LoginView.swift in Sources */,
 				72E2B84F244B47610093BACD /* SignUpView.swift in Sources */,

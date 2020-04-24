@@ -12,12 +12,11 @@ struct ContentView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
-    @State var isLoggedIn : Bool
     
     var body: some View {
         return NavigationView{
             Group{
-                if self.session.isLoggedIn {
+                if session.isLoggedIn {
                     Group{
                         return TabView{
                             PlanView().environmentObject(self.session)
@@ -37,23 +36,22 @@ struct ContentView: View {
                                     Text("Reflect")
                             }//ReflectView()
                         }//TabView()
-                            //.navigationBarHidden(true)
-                            .navigationBarItems(
-                                leading: Text("Welcome, \(self.session.user?.email ?? "Email not found")"),
-                                trailing: Button(action: self.session.logOut){
-                                    NavigationLink(destination: LoginView().environmentObject(self.session)){Text("Logout")}
-                                })
+                        .navigationBarTitle(Text(""), displayMode: .inline)
+                        .navigationBarItems(
+                            leading:                               Text("\(self.session.user?.displayName ?? self.session.user?.email ?? "Email not found")")
+                                .modifier(backgroundRectModifier(color: Color.yellow)),
+                            trailing:
+                                Button(action: {self.session.logOut()}){
+                                Text("Logout")
+                                }
+                        )//navBarItems
+                            
                     }
-                } else {
-                    Group{
-                        LoginView()
-                            .environmentObject(self.session)
-                    }
+                } else { 
+                    LoginView().environmentObject(self.session)
                 }//conditionals on session existence
             }//Group
-                .onAppear(perform:
-                    getUserAndTasks
-                    )
+                .onAppear(perform: getUserAndTasks)
         }//NavigationView
         .navigationBarHidden(true)
     }//body
@@ -68,22 +66,20 @@ struct ContentView: View {
 }//ContentView()
 
 struct ContentView_Previews: PreviewProvider {
+    
+    
+    
     static var previews: some View {
-        let session : Session = Session();
-        session.logIn(email: "potato@potatoes.com", password: "Potatoes"){ (result, error) in
+        let debugSession : Session = Session()
+        debugSession.logIn(email: "Debug@project.com", password: "DebugIt!"){ (result, error) in
             if error != nil{
-                session.tasks = testData
+                print(error.debugDescription)
             }else{
-                print("not logged in")
+                print("Started Debug Session")
             }
         }
-        return Group{
-            if (session.isLoggedIn) {
-                ContentView(isLoggedIn: session.isLoggedIn).environmentObject(session)
-                
-            }else{
-                Text("Not In")
-            }
-        }
+        return ContentView().environmentObject(debugSession)
     }//previews
 }//ContentView_Previews
+
+

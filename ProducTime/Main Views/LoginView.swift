@@ -13,10 +13,12 @@ import FirebaseAuth
 struct LoginView: View{
     
     //MARK: Properties
+    @EnvironmentObject var session: Session
+    
     @State var email: String = ""
     @State var password: String = ""
+    
     @State private var errorMessage : String = ""
-    @EnvironmentObject var session: Session
     @State private var showingAlert = false
     
     var body: some View{
@@ -57,15 +59,12 @@ struct LoginView: View{
             if error != nil{
                 if let errorCode = AuthErrorCode(rawValue: error!._code){
                     switch errorCode{
-                    case .invalidEmail, .wrongPassword:
-                        self.errorMessage = "Invalid email or password"
-                    case .userNotFound:
-                        self.errorMessage = "User not found."
+                    case .invalidEmail, .wrongPassword, .userNotFound:
+                        self.errorMessage = "Incorrect email or password"
                     default:
                         self.errorMessage = String(describing: error?.localizedDescription)
                         print("Create User Error: \(String(describing: error?.localizedDescription))")
                     }
-                    print(self.errorMessage)
                     self.showingAlert.toggle()
                 }
             } else{

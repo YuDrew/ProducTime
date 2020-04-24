@@ -46,7 +46,7 @@ struct NewTaskView: View {
             .navigationBarTitle(Text("Add New Task"))
             .navigationBarItems(trailing:
                 Button(action: {
-                    self.session.uploadTask(task: self.taskName, due: self.dueDate, importance: self.importance)
+                    self.session.uploadTask(name: self.taskName, due: self.dueDate, importance: self.importance)
                     self.session.getTasks()
                     self.isAddingNew.toggle()
                     print("Pressed add")

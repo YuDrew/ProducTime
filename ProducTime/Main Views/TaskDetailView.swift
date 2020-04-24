@@ -8,11 +8,13 @@
 
 import SwiftUI
 
-/*struct TaskDetailView: View {
+struct TaskDetailView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
     @Binding var task : Task
+    @State private var editMode = EditMode.inactive
+
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -21,46 +23,27 @@ import SwiftUI
     }
     
     var body: some View{
-        NavigationView{
-            VStack{
-                Form{
-                    Section{
-                        TextField("Task Name", text: task.task)
-                        DatePicker(selection: $task.due, in: Date()..., displayedComponents: .date){
-                            Text("Due Date")
-                        }
-                        Picker(selection: $task.importance, label: Text("Importance")){
-                            ForEach(Importance.allCases, id: \.self){
-                                Text($0.rawValue)
-                            }
-                        }
-                    }
+        VStack{
+            Form{
+                Section{
+                    Text(task.name)
+                    Text("Due: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: task.due)))")
+                    Text(task.importance.rawValue)
+                        .modifier(importanceModifier(importance: task.importance))
+                    Text(task.status.rawValue)
                 }
-                Text("\(task.task) by \(task.due, formatter: dateFormatter)")
-                Spacer()
-                
             }
-                
-            .navigationBarTitle(Text("Add New Task"))
-            .navigationBarItems(trailing:
-                Button(action: {
-                    self.session.uploadTask(task: self.taskName, due: self.dueDate, importance: self.importance)
-                    self.session.getTasks()
-                    self.isAddingNew.toggle()
-                    print("Pressed add")
-                }){
-                    Text("Add")
-                }
-            )
-        }
-    }
+        }.navigationBarTitle(Text(task.name), displayMode: .inline)
+        .navigationBarItems(trailing: EditButton())
+            .environment(\.editMode, $editMode)
+    }//body
+    
 }//PlanView
 
-struct TaskDetailView_Previews: PreviewProvider {
+/*struct TaskDetailView_Previews: PreviewProvider {
     
     static var previews: some View {
-        NewTaskView(isAddingNew: .constant(true)).environmentObject(Session())
+        TaskDetailView(task: Task(task: "Test", due: Date(), importance: .maximum), isShowingDetail: .constant(true)).environmentObject(Session())
     }
 
-}
-*/
+}*/

@@ -25,54 +25,53 @@ enum Status: String, CaseIterable, Hashable{
     case notStarted = "Not Started"
 }//Status
 
-class Task: Identifiable {
-    
+class Task: Identifiable, Equatable, ObservableObject {
+ 
+    //MARK: Properties
+    //For remote data
     let ref: DatabaseReference?
     let key: String
-    let id: String
     
+    //Important model properties
     var name: String
-    var due: Date
-    var log: [Date]
+    var due: Double
+    var log: [Double]
     var importance: Importance
     var status: Status
     
-    init(task: String, due: Date, importance: Importance, key: String = ""){
-        self.ref = nil
-        self.key = key
-        self.id = key
-        
-        self.name = task
-        self.due = due
-        self.log = []
-        self.importance = importance
-        self.status = .notStarted
-    }//init by user
+    //helper properties
+    private var logID: Int = 0
     
-    init(task: String, due: String, importance: Importance, key: String = ""){
-        self.ref = nil
-        self.key = key
-        self.id = key
+    init(task: String, due: Date, importance: Importance, key: String, ref: DatabaseReference){
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        let dueDate = dateFormatter.date(from: due)!
+        self.ref = ref
+        self.key = key
         
         self.name = task
-        self.due = dueDate
+        self.due = due.timeIntervalSinceReferenceDate
         self.log = []
         self.importance = importance
         self.status = .notStarted
-    }//init by user
+    }//init by Session; used to link to Firebase
+    
+    init(task: String, due: Date, importance: Importance, key: String = ""){
+        
+        self.ref = nil
+        self.key = key
+        
+        self.name = task
+        self.due = due.timeIntervalSinceReferenceDate
+        self.log = []
+        self.importance = importance
+        self.status = .notStarted
+    }//init by user, used only for testing
     
     init?(snapshot: DataSnapshot){
         print("try to create task from snapshot")
         guard
-            let value = snapshot.value as? [String: AnyObject],
-            let task = value["task"] as? String,
-            let due = value["due"] as? String,
-            //let log = value["log"] as? [String],
+            let value = snapshot.value as? [String : AnyObject],
+            let name = value["task"] as? String,
+            let due = value["due"] as? Double,
             let importance = value["importance"] as? String,
             let status = value["status"] as? String
             else {
@@ -80,44 +79,26 @@ class Task: Identifiable {
                 return nil
             }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        let dueDate = dateFormatter.date(from: due)!
-        dateFormatter.timeStyle = .long
-        var logDates : [Date] = []
-        /*for date in log{
-            if let newDate = dateFormatter.date(from: date){
-                logDates.append(newDate)
-            }else{
-                print("your date formatting in Firebase is whack")
-            }
-        }*/
+        //MARK: Load in TimeTracking Log
         self.ref = snapshot.ref
         self.key = snapshot.key
-        self.id = snapshot.key
         
-        self.name = task
-        self.due = dueDate
-        self.log = logDates
+        self.name = name
+        self.due = due
+        if let log = value["log"] as? [Double] {
+            self.log = log
+        }else{
+            self.log = []
+        }
         self.importance = Importance(rawValue: importance)!
         self.status = Status(rawValue: status)!
     }//init from a DataSnapshot
     
-    func toAnyObject() -> Any {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        let dueDate = dateFormatter.string(from: due)
-        dateFormatter.timeStyle = .long
-        var logDates : [String] = []
-        for time in log {
-            let logTime = dateFormatter.string(from: time)
-            logDates.append(logTime)
-        }
+    func toDictionary() -> NSDictionary {
         return [
             "task": name,
-            "due": dueDate,
-            "log": logDates,
+            "due": due,
+            "log": log,
             "importance": importance.rawValue,
             "status": status.rawValue,
         ]
@@ -125,54 +106,47 @@ class Task: Identifiable {
     
     func isTracking() -> Bool{
         return (log.count % 2 != 0)
-    }
+    }//isTracking
     
-    func startTracking(){
-        log.append(Date())
-    }
-    
-    func stopTracking(){
-        log.append(Date())
-    }
+    func logCurrentDate(){
+        let date = Date.timeIntervalSinceReferenceDate
+        log.append(date)
+        if let logRef = ref?.child("log").childByAutoId() {
+            logRef.setValue(date)
+        }
+    }//logCurrentDate
     
     func getTimeElapsed() -> String{ //in seconds
-        var elapsedTime : Int = 0
+        var elapsedTime : Double = 0
         var index : Int = 0
-        var startTime : Date = Date()
-        var endTime : Date
+        var startTime : Double = 0
+        var endTime : Double = 0
         
         for time in self.log {
             if index % 2 == 0{
                 startTime = time
             }else{
                 endTime = time
-                elapsedTime += Int(endTime.timeIntervalSince(startTime))
+                elapsedTime += Double(endTime - startTime)
+                startTime = -1
             }
             index += 1
         }
         
-        if isTracking(){
-            elapsedTime += Int(Date().timeIntervalSince(startTime))
+        if isTracking(), startTime != -1 {
+            elapsedTime += Double(Date().timeIntervalSinceReferenceDate - startTime)
         }
-        
 
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
 
         let formattedString = formatter.string(from: TimeInterval(elapsedTime))!
-        //let hours : Int = elapsedTime / 3600
-        //let mins: Int = (elapsedTime % 3600 ) / 60
-        //let secs: Int = (elapsedTime % 3600) % 60
         return formattedString
     }//getTimeElapsed
+    
+    //MARK: Protocol Functions
+    static func == (lhs: Task, rhs: Task) -> Bool {
+        return (lhs.key == rhs.key)
+    }
 }//Task
-
-
-let testData : [Task] = [
-    Task(task: "Submit Milestone II", due: "04/19/2020", importance: .high),
-    Task(task: "Get some sleep", due: "04/22/2020", importance: .maximum),
-    Task(task: "Record Demo Video", due: "04/23/2020", importance: .high),
-    Task(task: "Get Firebase to save tasks", due: "04/23/2020", importance: .high),
-    Task(task: "Logout Functionality", due: "04/23/2020", importance: .medium)
-]
