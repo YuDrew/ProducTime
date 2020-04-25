@@ -26,12 +26,12 @@ struct TrackRowView: View {
     var body: some View {
         VStack {
             HStack{
+                Circle()
+                .frame(width: 15, height: 15, alignment: .trailing)
+                .modifier(importanceModifier(importance: self.task.importance))
                 Text(self.task.name)
                     .font(.headline)
                     .modifier(statusModifier(status: self.task.status))
-                Circle()
-                    .frame(width: 15, height: 15, alignment: .trailing)
-                    .modifier(importanceModifier(importance: self.task.importance))
                 Spacer()
                 Text(self.task.elapsed)
                     .onReceive(timer){ input in

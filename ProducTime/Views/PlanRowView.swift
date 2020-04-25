@@ -26,11 +26,11 @@ struct PlanRowView: View {
             HStack{
                 VStack {
                     HStack{
-                        Text(self.task.name)
-                            .font(.headline)
                         Circle()
                             .frame(width: 13, height: 13, alignment: .trailing)
                             .modifier(importanceModifier(importance: self.task.importance))
+                        Text(self.task.name)
+                            .font(.headline)
                         Spacer()
                     }//HStack
                     HStack{
