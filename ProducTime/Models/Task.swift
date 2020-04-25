@@ -19,11 +19,11 @@ enum Importance: String, CaseIterable, Hashable{
 }//Importance
 
 enum Status: String, CaseIterable, Hashable{
-    case doneLate = "Done Late"
-    case done = "Done"
-    case overdue = "Overdue"
-    case onHold = "On Hold"
     case notStarted = "Not Started"
+    case inProgress = "In Progress"
+    case complete = "Complete"
+    case completedLate = "Complete [LATE]"
+    case onHold = "On Hold"
 }//Status
 
 class Task: Identifiable, Equatable, ObservableObject {
@@ -120,6 +120,10 @@ class Task: Identifiable, Equatable, ObservableObject {
         }//observe
     }//loadLogs
     
+    /*insertionIndexOf
+     - Basic binary search to find insertion index for a given date
+     - Used in order to properly construct date log for Tasks
+     */
     func insertionIndexOf(_ date: Double, isOrderedBefore: (Double, Double) -> Bool) -> Int {
         var lo = 0
         var hi = log.count - 1
@@ -134,7 +138,7 @@ class Task: Identifiable, Equatable, ObservableObject {
             }
         }
         return lo // not found, would be inserted at position lo
-    }//
+    }//insertionIndexOf
     
 
     //MARK: Functions for Reading, Calculating, and Editing State

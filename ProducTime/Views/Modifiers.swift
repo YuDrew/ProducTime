@@ -35,11 +35,11 @@ struct statusModifier: ViewModifier {
     func body(content: Content) -> some View{
         var color : Color = Color.black
         switch(self.status){
-            case .notStarted: color = Color.orange
+            case .notStarted: color = Color.gray
+            case .inProgress: color = Color.yellow
+            case .complete: color = Color.green
+            case .completedLate: color = Color.purple
             case .onHold: color = Color.blue
-            case .done: color = Color.green
-            case .overdue: color = Color.red
-            case .doneLate: color = Color.purple
         }
         return content
             .modifier(backgroundRectModifier(color: color))
