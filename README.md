@@ -25,7 +25,7 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 * Users can edit their display name
 
 ## Future Features to Implement 🔬
-- Make all task features editable (name, due date, priority level, progress status)
-- Make timetracking logs editable
-- Special secret features 🤫
+- Make all task features editable (name, due date, priority level, progress status, timetracking logs)
+- Enable task deletion
+- Integration with Google Calendar for some super secret special features 🤫
 
