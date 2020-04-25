@@ -24,8 +24,15 @@ struct LoginView: View{
     var body: some View{
         VStack(spacing: 20){
             Spacer()
-            Text("Sign In to ProducTime")
-                .font(Font.title)
+            HStack{
+                Text("Sign In To")
+                    .font(.title)
+                    .bold()
+                Text("ProducTime")
+                    .font(.title)
+                    .bold()
+                    .modifier(backgroundRectModifier(color: .green))
+            }
             HStack{
                 Text("Email")
                 TextField("Enter email address", text: $email)

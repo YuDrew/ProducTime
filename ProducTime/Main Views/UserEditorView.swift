@@ -13,6 +13,7 @@ struct UserEditorView: View {
     //MARK: Properties
     @EnvironmentObject var session : Session
     @Environment(\.editMode) var mode
+    
     @State var displayName : String = ""
     @Binding var isViewingUser : Bool
     
@@ -23,11 +24,18 @@ struct UserEditorView: View {
                     Section{
                         HStack{
                             Text("Display Name")
+                                .frame(width: 120)
                             Divider()
                             TextField("Display Name", text: $displayName)
                         }.onAppear(
                             perform: {self.displayName = self.session.user?.displayName ?? ""}
                         )
+                        HStack{
+                            Text("Email Address")
+                                .frame(width: 120)
+                            Divider()
+                            Text(self.session.user?.email ?? "")
+                        }
         
                     }//Form Section
                 }//Form
@@ -35,7 +43,7 @@ struct UserEditorView: View {
             }//VStack
             .navigationBarTitle(Text("Edit Profile"))
             .navigationBarItems(
-                leading: EditButton(),
+                //leading: EditButton(),
                 trailing:
                 Button(action: {
                     self.isViewingUser.toggle()

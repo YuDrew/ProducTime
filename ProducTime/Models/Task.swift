@@ -8,6 +8,7 @@
 //Original Task struct inspired by Todos struct: https://medium.com/flawless-app-stories/how-to-build-a-firebase-app-with-swiftui-5919d2d8a396
 
 import Firebase
+import FirebaseDatabase
 
 enum Importance: String, CaseIterable, Hashable{
     case maximum
@@ -104,11 +105,13 @@ class Task: Identifiable, Equatable, ObservableObject {
             print("Let's try getting the log from firebase")
             //dump(snapshot)
             //dump(self.tasks)
-            for child in snapshot.children{
+            for child in snapshot.children {
                 dump(child)
-                if let logDate = (child as AnyObject) as? Double{
-                    if self.log.firstIndex(of: logDate) == nil{
-                        self.log.insert(logDate, at: self.insertionIndexOf(logDate, isOrderedBefore: <))
+                if let snap = child as? DataSnapshot {
+                    if let logDate = snap.value as? Double{
+                        if self.log.firstIndex(of: logDate) == nil{
+                            self.log.insert(logDate, at: self.insertionIndexOf(logDate, isOrderedBefore: <))
+                        }
                     }
                 }else{
                     print("Loaded log snapshot incorrectly...")

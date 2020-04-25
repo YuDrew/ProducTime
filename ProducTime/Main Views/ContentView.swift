@@ -42,13 +42,14 @@ struct ContentView: View {
                                 self.isViewingUser.toggle()
                             }){
                                 Text("\(self.session.user?.displayName ?? self.session.user?.email ?? "Email not found")")
-                                .modifier(backgroundRectModifier(color: Color.yellow))
+                                    .modifier(backgroundRectModifier(color: Color.yellow))
+                                Spacer()
                             }.sheet(isPresented: $isViewingUser){
                                 UserEditorView(isViewingUser: self.$isViewingUser).environmentObject(self.session)
                             },
                             trailing:
                                 Button(action: {self.session.logOut()}){
-                                Text("Logout")
+                                    Text("Logout")
                                 }
                         )//navBarItems
                             

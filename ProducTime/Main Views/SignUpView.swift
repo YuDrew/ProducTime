@@ -15,36 +15,39 @@ struct SignUpView: View{
     
     
     //MARK: Properties
+    @EnvironmentObject var session: Session
+    
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showingAlert : Bool = false
     @State private var errorMessage : String = ""
-    @EnvironmentObject var session: Session
+
     
     var body: some View{
         Group{
             VStack{
-                Text("Sign Up For ProducTime")
-                    .font(.title)
-                    .bold()
+                Spacer()
                 HStack{
-                    Text("Email")
-                    TextField("Enter Email Address", text: $email)
+                    Text("Sign Up For")
+                        .font(.title)
+                        .bold()
+                    Text("ProducTime")
+                        .font(.title)
+                        .bold()
+                        .modifier(backgroundRectModifier(color: .green))
                 }
-                .padding()
-                
-                HStack{
-                    Text("Password")
-                    TextField("Enter Password", text: $password)
-                }
-                .padding()
+                TextField("Enter Email Address", text: $email)
+                    .padding()
+
+                TextField("Enter Password", text: $password)
+                    .padding()
                 
                 Button(action: signUp){
                     Text("Sign Up")
-                }//SignUpButton
-                .alert(isPresented: $showingAlert){
+                }.alert(isPresented: $showingAlert){
                     Alert(title: Text("Invalid Attempt"), message: Text(self.errorMessage))
                 }
+                Spacer()
             }//VStack
         }
         .padding()
