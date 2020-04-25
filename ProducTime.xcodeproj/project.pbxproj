@@ -163,8 +163,7 @@
 		72353038244A61B20043B12A /* ProducTime */ = {
 			isa = PBXGroup;
 			children = (
-				72E2B84C244B42890093BACD /* Session */,
-				72E2B841244A9BF30093BACD /* Main Views */,
+				72E2B841244A9BF30093BACD /* Views */,
 				72E2B83E244A66080093BACD /* Models */,
 				72353039244A61B20043B12A /* AppDelegate.swift */,
 				7235303B244A61B20043B12A /* SceneDelegate.swift */,
@@ -206,13 +205,14 @@
 		72E2B83E244A66080093BACD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				72E2B84A244B40E80093BACD /* Session.swift */,
 				72E2B83C244A66000093BACD /* User.swift */,
 				72E2B83F244A661B0093BACD /* Task.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		72E2B841244A9BF30093BACD /* Main Views */ = {
+		72E2B841244A9BF30093BACD /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				7235303D244A61B20043B12A /* ContentView.swift */,
@@ -229,15 +229,7 @@
 				72E2B846244A9C1B0093BACD /* ReflectView.swift */,
 				7256EFB02452A02E00CDD840 /* Modifiers.swift */,
 			);
-			path = "Main Views";
-			sourceTree = "<group>";
-		};
-		72E2B84C244B42890093BACD /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				72E2B84A244B40E80093BACD /* Session.swift */,
-			);
-			path = Session;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7971542090F86189C1820ED6 /* Frameworks */ = {
