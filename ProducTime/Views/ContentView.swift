@@ -67,7 +67,7 @@ struct ContentView: View {
     func getUserAndTasks(){
         session.listen()
         session.getTasks()
-        print("called getUserAndTasks")
+        print("ContentView: called getUserAndTasks")
     }//getUser
     
 }//ContentView()

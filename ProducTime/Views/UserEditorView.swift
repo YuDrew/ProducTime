@@ -50,7 +50,7 @@ struct UserEditorView: View {
                     if self.displayName != "" {
                         self.session.user?.displayName = self.displayName
                     }
-                    print("Pressed Done")
+                    print("UserEditorView: Pressed Done")
                 }){
                     Text("Done")
                 }//Add Button

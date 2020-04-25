@@ -70,7 +70,7 @@ class Task: Identifiable, Equatable, ObservableObject {
     }//init by user, used only for testing
     
     init?(snapshot: DataSnapshot){
-        print("try to create task from snapshot")
+        print("try to create a task from snapshot")
         guard
             let value = snapshot.value as? [String : AnyObject],
             let name = value["task"] as? String,
@@ -102,11 +102,11 @@ class Task: Identifiable, Equatable, ObservableObject {
     func loadLogs(){
         let logRef = self.ref?.child("log")
         logRef?.observe(DataEventType.value){ (snapshot) in
-            print("Let's try getting the log from firebase")
+            print("Let's get the log for \(self.name) from firebase")
             //dump(snapshot)
             //dump(self.tasks)
             for child in snapshot.children {
-                dump(child)
+                //dump(child)
                 if let snap = child as? DataSnapshot {
                     if let logDate = snap.value as? Double{
                         if self.log.firstIndex(of: logDate) == nil{
@@ -114,7 +114,7 @@ class Task: Identifiable, Equatable, ObservableObject {
                         }
                     }
                 }else{
-                    print("Loaded log snapshot incorrectly...")
+                    print("Loaded a log snapshot for \(self.name) incorrectly...")
                 }
             }
         }//observe

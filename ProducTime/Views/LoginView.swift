@@ -70,7 +70,7 @@ struct LoginView: View{
                         self.errorMessage = "Incorrect email or password"
                     default:
                         self.errorMessage = String(describing: error?.localizedDescription)
-                        print("Create User Error: \(String(describing: error?.localizedDescription))")
+                        print("LoginView: Create User Error: \(String(describing: error?.localizedDescription))")
                     }
                     self.showingAlert.toggle()
                 }

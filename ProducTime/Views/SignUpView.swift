@@ -69,7 +69,7 @@ struct SignUpView: View{
                         default:
                             self.errorMessage = "Create User Error: \(String(describing: error?.localizedDescription))"
                         }
-                        print(self.errorMessage)
+                        print("SignUpView: \(self.errorMessage)")
                         self.showingAlert.toggle()
                     }
                 } else{

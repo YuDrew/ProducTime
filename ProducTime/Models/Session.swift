@@ -35,9 +35,9 @@ class Session: ObservableObject{
                 self.user = User(uid: user.uid, email: user.email)
                 self.isLoggedIn = true
                 self.getTasks()
-                print("created user \(String(describing: user.email))")
+                print("Session: Loaded user \(String(describing: user.email))")
             }else{
-                print("destroying user \(String(describing: user?.email ?? "Error"))")
+                print("Session: Unloading user \(String(describing: user?.email ?? "Error"))")
                 self.user = nil
                 self.isLoggedIn = false
                 self.tasks.removeAll()
@@ -52,7 +52,7 @@ class Session: ObservableObject{
     */
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().createUser(withEmail: email, password: password, completion: handler)
-        print("signUp")
+        print("Session: signUp")
     }//signUp
 
     /* LogIn Function.
@@ -61,7 +61,7 @@ class Session: ObservableObject{
      */
     func logIn(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().signIn(withEmail: email, password: password, completion: handler)
-        print("logIn")
+        print("Session: logIn")
     }//logIn
 
     /* LogOut Function.
@@ -70,7 +70,7 @@ class Session: ObservableObject{
     */
     func logOut(){
         try! Auth.auth().signOut()
-        print("logOut")
+        print("Session: logOut")
     }//logOut
 
     
@@ -82,7 +82,7 @@ class Session: ObservableObject{
      */
     func getTasks(){
         ref.observe(DataEventType.value){ (snapshot) in
-            print("Let's try getting tasks from firebase")
+            print("Session: Something changed in our tasks. Let's get User's tasks from firebase")
             //dump(snapshot)
             //dump(self.tasks)
             for child in snapshot.children{
@@ -91,13 +91,13 @@ class Session: ObservableObject{
                     let task = Task(snapshot: snapshot){
                     if self.tasks.firstIndex(of: task) == nil{
                         self.tasks.append(task)
-                        print("Added a \(task.name) from firebase")
+                        print("Session: Added \(task.name) from firebase")
                     }else{
-                        print("the mans \(task.name) already exists")
+                        print("Session: \(task.name) already exists")
                     }
                     
                 }else{
-                    print("Loaded snapshot incorrectly...")
+                    print("Session: Loaded snapshot incorrectly...")
                 }
             }
         }//observe
@@ -112,17 +112,19 @@ class Session: ObservableObject{
         task.ref?.setValue(task.toDictionary())
         dump(task.toDictionary())
         
-        print("Added \(name) to Database")
+        print("Sesssion: Added \(name) to Database")
     }//uploadTask
     
     func updateTask(task: Task){
         task.ref?.updateChildValues(task.toDictionary() as! [AnyHashable : Any])
-        print("Called updateTask")
+        print("Session: called updateTask")
     }//updateTask
     
     func deleteTask(taskIndex: Int){
+        print("Session: deleting \(tasks[taskIndex].name) from database and list")
         ref.child(tasks[taskIndex].key).removeValue()
         tasks.remove(at: taskIndex)
+        
     }//delete a Task
     
     func deleteTask(task: Task){

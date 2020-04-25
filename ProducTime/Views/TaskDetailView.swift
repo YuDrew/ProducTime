@@ -176,7 +176,7 @@ struct TaskDetailView: View {
                     Button(action: {
                         self.task.updateTask(name: self.taskName, due: self.dueDate, importance: self.importance, status: self.status)
                         self.isEditingTask.toggle()
-                        print("Pressed Done")
+                        print("TaskDetailView: Pressed Done")
                     }){
                         Text("Done")
                     }//Add Button

@@ -49,7 +49,7 @@ struct NewTaskView: View {
                     self.session.uploadTask(name: self.taskName, due: self.dueDate, importance: self.importance)
                     self.session.getTasks()
                     self.isAddingNew.toggle()
-                    print("Pressed add")
+                    print("NewTaskView: Pressed add")
                 }){
                     Text("Add")
                 }//Add Button
