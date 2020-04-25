@@ -40,7 +40,7 @@ class Task: Identifiable, Equatable, ObservableObject {
     @Published var importance: Importance
     @Published var status: Status
     @Published var elapsed: String = "0"
-    
+    @Published var elapsedDouble: Double = 0
     //helper properties
     private var logID: Int = 0
     
@@ -160,7 +160,13 @@ class Task: Identifiable, Equatable, ObservableObject {
         
     }//logCurrentDate
     
-    func getTimeElapsed(){ //in seconds
+    
+    /* CalcTimeElapsed
+     - Calculated the total time spent on the task
+     - Updates two published properties: elapsedDouble and elapsed (string)
+     - TODO: Clean up function so that you only have to add new intervals rather than summing every interval each time
+     */
+    func calcTimeElapsed(){ //in seconds
         var elapsedTime : Double = 0
         var index : Int = 0
         var startTime : Double = 0
@@ -180,6 +186,8 @@ class Task: Identifiable, Equatable, ObservableObject {
             elapsedTime += Double(Date().timeIntervalSinceReferenceDate - startTime)
         }
 
+        self.elapsedDouble = elapsedTime
+        
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
@@ -189,6 +197,8 @@ class Task: Identifiable, Equatable, ObservableObject {
     }//getTimeElapsed
     
     //MARK: Protocol Functions
+    
+    //Equatable Protocol required function
     static func == (lhs: Task, rhs: Task) -> Bool {
         return (lhs.key == rhs.key)
     }

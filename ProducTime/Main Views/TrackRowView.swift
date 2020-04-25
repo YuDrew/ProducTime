@@ -36,9 +36,9 @@ struct TrackRowView: View {
                 Text(self.task.elapsed)
                     .onReceive(timer){ input in
                         if(self.task.isTracking()){
-                            self.task.getTimeElapsed()
+                            self.task.calcTimeElapsed()
                         }
-                }.onAppear(perform: {self.task.getTimeElapsed()})
+                }.onAppear(perform: {self.task.calcTimeElapsed()})
                 Button(action:
                 {
                     if(self.task.isTracking()){

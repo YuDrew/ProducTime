@@ -11,6 +11,9 @@
 import SwiftUI
 class User {
     
+    //MARK: Properties
+    
+    //important Auth Properties
     var uid: String
     var email: String?
     var displayName: String?

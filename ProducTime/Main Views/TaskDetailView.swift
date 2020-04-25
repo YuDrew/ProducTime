@@ -100,10 +100,10 @@ struct TaskDetailView: View {
                         .font(.headline)
                     Text(self.task.elapsed)
                         .onReceive(timer){ input in
-                            self.task.getTimeElapsed()
+                            self.task.calcTimeElapsed()
                         }
                     .onAppear(perform: {
-                        self.task.getTimeElapsed()
+                        self.task.calcTimeElapsed()
                     })
                     Spacer()
                 }.padding()

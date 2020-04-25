@@ -18,8 +18,10 @@ class Session: ObservableObject{
     @Published var user: User?
     @Published var isLoggedIn: Bool = false
     @Published var tasks: [Task] = []
+    @Published var totalTimeSpent: Double = 0
     
     var ref: DatabaseReference = Database.database().reference(withPath: "users/\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
+    
     //MARK: Auth Functions
     
     /*Listener that is called anytime the sign-in state changes
@@ -72,7 +74,7 @@ class Session: ObservableObject{
     }//logOut
 
     
-    //MARK: Functions for Updating State
+    //MARK: Functions for Tasks Property
     
     /* getTasks Observer
      Watches current ref for tasks and updates whenever changes are made in Firebase
@@ -128,5 +130,13 @@ class Session: ObservableObject{
             deleteTask(taskIndex: taskIndex)
         }
     }//delete a Task
+    
+    func calcTotalTime(){
+        self.totalTimeSpent = 0
+        for task in self.tasks{
+            task.calcTimeElapsed()
+            self.totalTimeSpent += task.elapsedDouble
+        }
+    }//calculate total time spent working on tasks
     
 }//Session
