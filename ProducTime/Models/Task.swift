@@ -136,30 +136,27 @@ class Task: Identifiable, Equatable, ObservableObject {
         return lo // not found, would be inserted at position lo
     }//
     
+
+    //MARK: Functions for Reading, Calculating, and Editing State
     
-    func toDictionary() -> NSDictionary {
-        return [
-            "task": name,
-            "due": due,
-            "importance": importance.rawValue,
-            "status": status.rawValue,
-            "log": log,
-        ]
-    }//toAnyObject
+    /*updateTask
+     - Updates key state parameters of Task
+     - Currently just overwrites everything
+     */
+    func updateTask(name: String, due: Date, importance: Importance, status: Status){
+        self.name = name
+        self.due = due.timeIntervalSinceReferenceDate
+        self.importance = importance
+        self.status = status
+    }//updateTask    
     
+    /* isTracking
+    - Determines if the task is being tracked or not
+    - Currently determined by looking at the length of the log. This is not very conducive to editing...
+    */
     func isTracking() -> Bool{
         return (log.count % 2 != 0)
     }//isTracking
-    
-    func logCurrentDate(){
-        let date = Date.timeIntervalSinceReferenceDate
-        log.append(date)
-        if let logRef = ref?.child("log").childByAutoId() {
-            logRef.setValue(date)
-        }
-        
-    }//logCurrentDate
-    
     
     /* CalcTimeElapsed
      - Calculated the total time spent on the task
@@ -195,6 +192,28 @@ class Task: Identifiable, Equatable, ObservableObject {
         let formattedString = formatter.string(from: TimeInterval(elapsedTime))!
         self.elapsed = formattedString
     }//getTimeElapsed
+    
+    //MARK: Functions for Uploading to Firebase
+    
+    func toDictionary() -> NSDictionary {
+        return [
+            "task": name,
+            "due": due,
+            "importance": importance.rawValue,
+            "status": status.rawValue,
+            "log": log,
+        ]
+    }//toAnyObject
+    
+    func logCurrentDate(){
+        let date = Date.timeIntervalSinceReferenceDate
+        log.append(date)
+        if let logRef = ref?.child("log").childByAutoId() {
+            logRef.setValue(date)
+        }
+        
+    }//logCurrentDate
+    
     
     //MARK: Protocol Functions
     

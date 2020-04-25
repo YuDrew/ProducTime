@@ -14,13 +14,28 @@ struct TaskDetailView: View {
     @EnvironmentObject var session : Session
     @ObservedObject var task : Task
     
+    @State var isEditing : Bool = false
+    
     var body: some View{
         NavigationView{
             VStack{
-                
                 TaskPropertiesView(task: task).environmentObject(session)
                 TaskLogView(task: task).environmentObject(session)
-                
+                .navigationBarTitle(Text("Task Details"), displayMode: .inline)
+                    .navigationBarItems(trailing: Button(action: {
+                        self.isEditing.toggle()
+                    }){
+                        Text("Edit")
+                    }.sheet(isPresented: $isEditing){
+                        TaskEditorView(
+                            task: self.task,
+                            taskName: self.task.name,
+                            dueDate: Date(timeIntervalSinceReferenceDate: self.task.due),
+                            importance: self.task.importance,
+                            status: self.task.status,
+                            isEditingTask: self.$isEditing
+                        ).environmentObject(self.session)
+                    })
             }//VStack
         }//NavView
     }//body
@@ -72,8 +87,8 @@ struct TaskDetailView: View {
                         Text(task.status.rawValue)
                         Spacer()
                     }
-                }.navigationBarTitle(Text("Task Details"), displayMode: .inline)
-                .navigationBarItems(trailing: EditButton())
+                }//.navigationBarTitle(Text("Task Details"), displayMode: .inline)
+                //.navigationBarItems(trailing: EditButton())
             }//Form
         }//View
     }//TaskPropertiesView
@@ -116,6 +131,59 @@ struct TaskDetailView: View {
             }//VStack
         }//body
     }//LogView
+    
+    //MARK: Views for Editing
+    struct TaskEditorView: View {
+        
+        //MARK: Properties
+        @EnvironmentObject var session : Session
+        @ObservedObject var task: Task
+        
+        @State var taskName : String
+        @State var dueDate : Date
+        @State var importance: Importance
+        @State var status: Status
+        
+        @Binding var isEditingTask : Bool
+        
+        var body: some View{
+            NavigationView{
+                VStack{
+                    Form{
+                        Section{
+                            TextField("Task Name", text: $taskName)
+                            DatePicker(selection: $dueDate, in: Date()..., displayedComponents: .date){
+                                Text("Due Date")
+                            }//DatePicker
+                            Picker(selection: $importance, label: Text("Importance")){
+                                ForEach(Importance.allCases, id: \.self){
+                                    Text($0.rawValue)
+                                    }//Enumerate Importance Cases
+                            }//Importance Picker
+                            Picker(selection: $status, label: Text("Status")){
+                                ForEach(Status.allCases, id: \.self){
+                                    Text($0.rawValue)
+                                }//Enumerate Status Cases
+                            }//Status Picker
+                        }//Form Section
+                    }//Form
+                    Spacer()
+                }//VStack
+                .navigationBarTitle(Text("Edit Task"))
+                .navigationBarItems(
+                    //leading: EditButton(),
+                    trailing:
+                    Button(action: {
+                        self.task.updateTask(name: self.taskName, due: self.dueDate, importance: self.importance, status: self.status)
+                        self.isEditingTask.toggle()
+                        print("Pressed Done")
+                    }){
+                        Text("Done")
+                    }//Add Button
+                )//NavigationBarItems
+            }//NavigationView
+        }//body
+    }//PlanView
     
 }//PlanView
 
