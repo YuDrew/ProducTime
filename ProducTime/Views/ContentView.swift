@@ -58,7 +58,7 @@ struct ContentView: View {
                     LoginView().environmentObject(self.session)
                 }//conditionals on session existence
             }//Group
-                .onAppear(perform: getUserAndTasks)
+            .onAppear(perform: getUserAndTasks)
         }//NavigationView
         .navigationBarHidden(true)
     }//body

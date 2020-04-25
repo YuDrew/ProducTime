@@ -34,7 +34,7 @@ class Session: ObservableObject{
                 self.ref = Database.database().reference(withPath: "\(String(describing: Auth.auth().currentUser?.uid ?? "Error"))")
                 self.user = User(uid: user.uid, email: user.email)
                 self.isLoggedIn = true
-                self.getTasks()
+                //self.getTasks()
                 print("Session: Loaded user \(String(describing: user.email))")
             }else{
                 print("Session: Unloading user \(String(describing: user?.email ?? "Error"))")
@@ -86,7 +86,7 @@ class Session: ObservableObject{
             //dump(snapshot)
             //dump(self.tasks)
             for child in snapshot.children{
-                dump(child)
+                //dump(child)
                 if let snapshot = child as? DataSnapshot,
                     let task = Task(snapshot: snapshot){
                     if self.tasks.firstIndex(of: task) == nil{
@@ -110,14 +110,14 @@ class Session: ObservableObject{
         let task = Task(name: name, due: due, importance: importance, key: key, ref: ref.child(key))
         
         task.ref?.setValue(task.toDictionary())
-        dump(task.toDictionary())
+        //dump(task.toDictionary())
         
         print("Sesssion: Added \(name) to Database")
     }//uploadTask
     
     func updateTask(task: Task){
         task.ref?.updateChildValues(task.toDictionary() as! [AnyHashable : Any])
-        print("Session: called updateTask")
+        print("Session: called updateTask for \(task.name)")
     }//updateTask
     
     func deleteTask(taskIndex: Int){
