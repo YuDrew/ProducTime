@@ -115,10 +115,6 @@ class Session: ObservableObject{
         print("Sesssion: Added \(name) to Database")
     }//uploadTask
     
-    func updateTask(task: Task){
-        task.ref?.updateChildValues(task.toDictionary() as! [AnyHashable : Any])
-        print("Session: called updateTask for \(task.name)")
-    }//updateTask
     
     func deleteTask(taskIndex: Int){
         print("Session: deleting \(tasks[taskIndex].name) from database and list")

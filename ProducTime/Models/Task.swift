@@ -148,10 +148,12 @@ class Task: Identifiable, Equatable, ObservableObject {
      - Currently just overwrites everything
      */
     func updateTask(name: String, due: Date, importance: Importance, status: Status){
+        print("Task: called updateTask for \(self.name)")
         self.name = name
         self.due = due.timeIntervalSinceReferenceDate
         self.importance = importance
         self.status = status
+        self.ref?.updateChildValues(self.toDictionary() as! [AnyHashable : Any])
     }//updateTask    
     
     /* isTracking
