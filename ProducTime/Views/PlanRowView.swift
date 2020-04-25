@@ -12,7 +12,6 @@ struct PlanRowView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
-    @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @ObservedObject var task : Task
     
     var dateFormatter: DateFormatter {

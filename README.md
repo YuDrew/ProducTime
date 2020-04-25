@@ -11,17 +11,17 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 
 ## Instructions for Running the Project 📝
 - Make sure you have cocoapods
-- Make sure to run "pod install" on the repo once downloaded
-- Use the ProducTime.xcworkspace file
+- Make sure to run "pod install" on the entire repo once downloaded
+- Open the ProducTime.xcworkspace file and run!
 
 ## Current Functionality 💪
 * Handles different users via email login / logout / signup
-* User can create tasks with due dates (future dates only!) and priority levels
+* User can create and edit tasks with due dates (future dates only!) and priority levels
 * Log when User is working on a given task and when they stop
-* See how much time a User has spent working
+* See how much time a User has spent working on tasks and in total
 
 ### Other Features 😎
-* Project colors change depending on importance level and status [status editing isn't supported yet, though]
+* Project colors change depending on importance level and status
 * Users can edit their display name
 
 ## Future Features to Implement 🔬
@@ -29,3 +29,5 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 - Enable task deletion
 - Integration with Google Calendar for some super secret special features 🤫
 
+## Bugs to Fix 🕷
+- Figure out how to update PlanRowViews automatically when its respective task is updated
