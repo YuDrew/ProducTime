@@ -33,3 +33,7 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 
 ## Bugs to Fix 🕷
 - Figure out how to update PlanRowViews automatically when its respective task is updated
+
+## Screenshots 📷
+![](images/Plan.png) ![](images/Track.png) ![](images/Reflect.png)
+![](images/AddNewTask.png) ![](images/EditTask.png) ![](images/TaskDetails.png)
