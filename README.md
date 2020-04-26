@@ -10,8 +10,6 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 - Firebase Realtime Database
 
 ## Instructions for Running the Project 📝
-- Make sure you have cocoapods
-- Make sure to run "pod install" on the entire repo once downloaded
 - Open the ProducTime.xcworkspace file and run!
 
 ## Current Functionality 💪
