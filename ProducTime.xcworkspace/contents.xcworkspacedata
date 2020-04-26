@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "container:"
-      name = "images">
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/EditTask.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/Plan.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/EditProfile.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/AddNewTask.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/Track.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/Reflect.png">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/yudrew/Documents/Pet Projects/ProducTime/TaskDetails.png">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:README.md">
    </FileRef>
