@@ -188,8 +188,6 @@ class Task: Identifiable, Equatable, ObservableObject {
         if isTracking() {
             elapsedTime += Double(Date().timeIntervalSinceReferenceDate - startTime)
         }
-
-        self.elapsedDouble = elapsedTime
         
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
@@ -197,6 +195,7 @@ class Task: Identifiable, Equatable, ObservableObject {
 
         let formattedString = formatter.string(from: TimeInterval(elapsedTime))!
         self.elapsed = formattedString
+        self.elapsedDouble = elapsedTime
     }//getTimeElapsed
     
     //MARK: Functions for Uploading to Firebase
