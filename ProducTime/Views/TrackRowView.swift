@@ -23,27 +23,26 @@ struct TrackRowView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack{
-                Circle()
-                    .frame(width: 15, height: 15, alignment: .trailing)
-                    .modifier(importanceModifier(importance: self.task.importance))
-                Text(self.task.name)
-                    .font(.headline)
-                    .modifier(statusModifier(status: self.task.status))
-                Spacer()
-                Text(self.task.elapsed)
-                    .onReceive(timer){ input in
-                        if(self.task.isTracking()){
-                            self.task.calcTimeElapsed()
-                        }
-                }.onAppear(perform: self.task.calcTimeElapsed)
-                Button(action: self.task.logCurrentDate){
-                    Image(systemName: self.task.isTracking() ? "pause.circle" : "play.circle")
-                        .foregroundColor(.blue)
-                }//logButton
-            }//HStack
-        }//VStack
+        HStack{
+            Circle()
+                .frame(width: 15, height: 15, alignment: .trailing)
+                .modifier(importanceModifier(importance: self.task.importance))
+            Text(self.task.name)
+                .font(.headline)
+                .modifier(statusModifier(status: self.task.status))
+            Spacer()
+            Text(self.task.elapsed)
+                .onReceive(timer){ input in
+                    if(self.task.isTracking()){
+                        self.task.calcTimeElapsed()
+                    }
+            }.onAppear(perform: self.task.calcTimeElapsed)
+            Button(action: self.task.logCurrentDate){
+                Image(systemName: self.task.isTracking() ? "pause.circle" : "play.circle")
+                    .foregroundColor(.blue)
+            }//logButton
+        }//HStack
+        .animation(nil)
     }//body
     
 }//PlanRowView
