@@ -20,6 +20,7 @@ struct LoginView: View{
     
     @State private var errorMessage : String = ""
     @State private var showingAlert = false
+    @State private var hidePass : Bool = true
     
     var body: some View{
         VStack(spacing: 20){
@@ -34,12 +35,23 @@ struct LoginView: View{
                     .modifier(backgroundRectModifier(color: .green))
             }
             HStack{
-                Text("Email")
                 TextField("Enter email address", text: $email)
+                .padding()
             }
             HStack{
-                Text("Password")
-                SecureField("Password", text: $password)
+                if self.hidePass{
+                    SecureField("Enter Password", text: $password)
+                        .padding()
+                }else{
+                    TextField("Enter Password", text: $password)
+                    .padding()
+                }
+                Button(action: {
+                    self.hidePass.toggle()
+                }){
+                    Image(systemName: self.hidePass ? "eye.slash.fill" : "eye.fill")
+                        .foregroundColor(self.hidePass ? Color.secondary :  Color.green)
+                }
             }
             
             Button(action: logIn){

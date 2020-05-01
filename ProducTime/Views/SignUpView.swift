@@ -21,7 +21,7 @@ struct SignUpView: View{
     @State private var password: String = ""
     @State private var showingAlert : Bool = false
     @State private var errorMessage : String = ""
-
+    @State private var hidePass : Bool = true
     
     var body: some View{
         Group{
@@ -39,9 +39,21 @@ struct SignUpView: View{
                 TextField("Enter Email Address", text: $email)
                     .padding()
 
-                TextField("Enter Password", text: $password)
-                    .padding()
-                
+                HStack{
+                    if self.hidePass{
+                        SecureField("Enter Password", text: $password)
+                            .padding()
+                    }else{
+                        TextField("Enter Password", text: $password)
+                        .padding()
+                    }
+                    Button(action: {
+                        self.hidePass.toggle()
+                    }){
+                        Image(systemName: self.hidePass ? "eye.slash.fill" : "eye.fill")
+                            .foregroundColor(self.hidePass ? Color.secondary :  Color.green)
+                    }
+                }
                 Button(action: signUp){
                     Text("Sign Up")
                 }.alert(isPresented: $showingAlert){
