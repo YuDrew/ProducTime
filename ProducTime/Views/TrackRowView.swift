@@ -37,7 +37,13 @@ struct TrackRowView: View {
                         self.task.calcTimeElapsed()
                     }
             }.onAppear(perform: self.task.calcTimeElapsed)
-            Button(action: self.task.logCurrentDate){
+            Button(action: {
+                self.task.logCurrentDate();
+                if(self.task.status == .notStarted){
+                    self.task.status = .inProgress
+                }
+                
+            }){
                 Image(systemName: self.task.isTracking() ? "pause.circle" : "play.circle")
                     .foregroundColor(.blue)
             }//logButton
