@@ -12,7 +12,7 @@ struct NewTaskView: View {
     
     //MARK: Properties
     @EnvironmentObject var session : Session
-    @State var taskName : String = "Task Name (make it actionable!)"
+    @State var taskName : String = ""
     @State var dueDate : Date = Date()
     @State var importance: Importance = .medium
     @Binding var isAddingNew : Bool
@@ -28,7 +28,7 @@ struct NewTaskView: View {
             VStack{
                 Form{
                     Section{
-                        TextField("Task Name", text: $taskName)
+                        TextField("Task Name (make it actionable!)", text: $taskName)
                         DatePicker(selection: $dueDate, in: Date()..., displayedComponents: .date){
                             Text("Due Date")
                         }//DatePicker
@@ -39,7 +39,7 @@ struct NewTaskView: View {
                         }//Importance Picker
                     }//Form Section
                 }//Form
-                Text("\(taskName) by \(dueDate, formatter: dateFormatter)")
+                Text("\(taskName.isEmpty ? "Do something" : taskName) by \(dueDate, formatter: dateFormatter)")
                 Spacer()
             }//VStack
                 
