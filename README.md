@@ -14,7 +14,7 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 
 ## Current Functionality 💪
 * Handles different users via email login / logout / signup
-* User can create and edit tasks with due dates (future dates only!) and priority levels
+* User can create and edit tasks with due dates (future dates only!), priority levels, and task status
 * Log when User is working on a given task and when they stop
 * See how much time a User has spent working on tasks and in total
 
@@ -30,7 +30,7 @@ CIS195-201 Final Project (PennKey: AndrewYu)
 - Integration with Google Calendar for some super secret special features 🤫
 
 ## Bugs to Fix 🕷
-- Figure out how to update PlanRowViews automatically when its respective task is updated
+- Some changes to state aren't automatically reflected in UI
 
 ## Screenshots 📷
 ![](images/Plan.png) ![](images/Track.png) ![](images/Reflect.png)
